@@ -1,0 +1,114 @@
+/**
+ * [67one-blog function.scss]
+ * @con scss常用函数
+ * @aim 函数统一管理
+ * @author 时光笑我温暖如阳
+ * @time 2016/11/04 20:35
+ */
+ @mixin position($type, $top: null, $right: null, $bottom: null, $left: null, $zIndex: null) {
+     position: $type;
+     top: $top;
+     right: $right;
+     bottom: $bottom;
+     left: $left;
+     z-index: $zIndex;
+ }
+ @mixin bower($css3, $content) {
+     -webkit-#{$css3}: $content;
+        -moz-#{$css3}: $content;
+         -ms-#{$css3}: $content;
+          -o-#{$css3}: $content;
+             #{$css3}: $content;
+ }
+ @mixin css3Transition($content) {
+     -webkit-transition: $content;
+        -moz-transition: $content;
+         -ms-transition: $content;
+          -o-transition: $content;
+             transition: $content;
+ }
+ @mixin dib{
+     display: inline-block;
+     *display: inline;
+     *zoom: 1;
+ }
+ @mixin db{
+     display: block;
+ }
+ @mixin dn{
+     display: none;
+ }
+ @mixin borderBox {
+     -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+         -ms-box-sizing: border-box;
+          -o-box-sizing: border-box;
+             box-sizing: border-box;
+ }
+ @mixin borderRadius($content){
+     -webkit-border-radius: $content;
+        -moz-border-radius: $content;
+         -ms-border-radius: $content;
+          -o-border-radius: $content;
+             border-radius: $content;
+ }
+ @mixin transForm($content){
+     -webkit-transform: $content;
+        -moz-transform: $content;
+         -ms-transform: $content;
+          -o-transform: $content;
+             transform: $content;
+ }
+ @mixin boxShadow($content){
+     -webkit-box-shadow: $content;
+        -moz-box-shadow: $content;
+         -ms-box-shadow: $content;
+          -o-box-shadow: $content;
+             box-shadow: $content;
+ }
+ @mixin opacity($opacity) {
+     opacity: $opacity;
+     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=#{$opacity * 100})";
+ }
+ @mixin clink($normal,$hover){
+     &:link,
+     &:active,
+     &:visited{
+     	color: $normal;
+     }
+     &:hover{
+     	color: $hover;
+     }
+ }
+ @mixin imgVHM(){
+     text-align: center;
+     font-size: 0;
+     &:after{
+         display:inline-block;
+         width:0;
+         height:100%;
+         content:"center";
+         vertical-align:middle;
+     }
+     img{
+         vertical-align: middle;
+     }
+ }
+ @mixin clearfix(){
+     *zoom: 1;
+     &:after {
+         content: "\0020";
+         display: block;
+         clear: both;
+     }
+ }
+ @mixin backgroundSize($con){
+     @include bower('background-size',$con);
+ }
+ @mixin linHeight($con) {
+    height: $con;
+    line-height: $con;
+ }
+ @mixin userSelect($con){
+     @include bower(user-select,$con);
+ }
