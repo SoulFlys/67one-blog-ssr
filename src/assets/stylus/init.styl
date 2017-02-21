@@ -1,0 +1,52 @@
+@charset "UTF-8"
+// @import '../css/reset.css'
+@import "./constant"
+@import "./function"
+
+::-webkit-scrollbar
+    width: 8px
+    height: 8px
+    background-color: #B9B9B9
+
+::-webkit-scrollbar-track
+    border-radius: 10px
+    background-color: #B9B9B9
+
+::-webkit-scrollbar-thumb
+    border-radius: 10px
+    background-color: #2B394E
+
+
+::selection
+    background: #A0DAD0
+    color: #fff
+
+
+input:-webkit-autofill
+    box-shadow: 0 0 0px 1000px white inset
+
+
+.view
+    padding-top: 100px
+
+.page
+    width: 100%
+    padding: 20px 0
+    text-align: center
+    margin: 80px 0
+    user-select: none
+    a
+        padding: 13px 35px;
+        border: 1px solid $loadMore-border
+        border-radius: 50px
+        color: $loadMore-title
+        cursor: pointer
+        &:hover
+            border: 1px solid $loadMore-borderHover
+            color: $loadMore-titleHover
+        &.loadingMore
+            background: url('./assets/imgs/postload.gif') center no-repeat
+            color: #555
+            border: none
+            &:hover
+                border:none

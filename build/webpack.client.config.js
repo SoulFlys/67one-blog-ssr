@@ -6,6 +6,12 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const SWPrecachePlugin = require('sw-precache-webpack-plugin')
 
 const config = Object.assign({}, base, {
+resolve: {
+    alias: Object.assign({}, base.resolve.alias, {
+      'create-api': './create-api-client.js'
+    }),
+    extensions: base.resolve.extensions
+  },
   plugins: (base.plugins || []).concat([
     // strip comments in Vue code
     new webpack.DefinePlugin({
@@ -30,9 +36,9 @@ if (process.env.NODE_ENV === 'production') {
   // here we overwrite the loader config for <style lang="stylus">
   // so they are extracted.
   vueConfig.loaders = {
-    scss: ExtractTextPlugin.extract({
-        loader: 'css-loader?sourceMap!sass-loader?sourceMap',
-        fallbackLoader: 'vue-style-loader' // <- this is a dep of vue-loader
+    stylus: ExtractTextPlugin.extract({
+        use: 'css-loader!stylus-loader',
+        fallback: 'vue-style-loader' // <- this is a dep of vue-loader
     })
   }
 

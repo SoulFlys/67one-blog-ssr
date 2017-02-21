@@ -19,8 +19,16 @@ module.exports = {
     filename: '[name].[chunkhash].js'
   },
   resolve: {
+    extensions: [
+        '.js', '.vue'
+    ],
+    // fallback: [path.join(__dirname, '../node_modules')],
     alias: {
-      'public': path.resolve(__dirname, '../public')
+      'public': path.resolve(__dirname, '../public'),
+      //'vue$': 'vue/dist/vue',
+      'src': path.resolve(__dirname, '../src'),
+      'assets': path.resolve(__dirname, '../src/assets'),
+      'components': path.resolve(__dirname, '../src/components'),
     }
   },
   module: {
