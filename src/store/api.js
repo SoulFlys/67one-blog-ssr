@@ -105,6 +105,10 @@ export const fetch = (model, query) => {
 export const hits = () => {
     return fetch('/blog/basis/hits')
 }
+
+export const readings = (params) => {
+    return fetch('/blog/article/readings',params)
+}
 //
 // export const fetchArticleList = (params) => {
 //     return fetch('/blog/article',params)

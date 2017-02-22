@@ -111,7 +111,7 @@ export default {
   },
   methods: {
       toggle(key){
-        console.log(key);
+        // console.log(key);
         //  this.$store.state.allArticleList[key].hidden = this.$store.state.allArticleList[key].hidden || false;
         //  this.$store.state.allArticleList[key].hidden = !this.$store.state.allArticleList[key].hidden;
         //  _.each(this.allArticleList[key],(item) => {
@@ -141,6 +141,7 @@ export default {
     .list
         margin-bottom: 95px
         margin-top: 50px
+        margin-left: 20px
         border-left:1px dashed $archive-listBorLeft
         .list-time
             relative: top left

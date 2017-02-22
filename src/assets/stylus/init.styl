@@ -50,3 +50,60 @@ input:-webkit-autofill
             border: none
             &:hover
                 border:none
+
+
+@media (max-width:800px){
+#app{
+    header{
+        height:56px;
+        padding:5px;
+        .header-con{
+            width:100%;
+            nav{
+                margin:0;
+            }
+            .logo{
+                height:56px;
+                a{
+                    img{
+                        margin:3px 0;
+                    }
+                }
+            }
+        }
+    }
+    .banner{
+        .banner-center{
+            .banner-info{
+                width:100%;
+            }
+        }
+    }
+    .index{
+        &.view{
+            padding-top: 56px;
+        }
+        .content{
+            width:100%;
+            .con{
+                article{
+                    padding:0 15px;
+                    .art-pic{
+                        display: none
+                    }
+                    .art-con{
+                        width:100%;
+                        padding-left: 0;
+                    }
+                }
+            }
+        }
+    }
+    .archive{
+        width:100%;
+    }
+    .links{
+        width:100%;
+    }
+}
+}

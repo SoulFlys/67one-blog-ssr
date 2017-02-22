@@ -15,6 +15,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import * as api from '../../store/api'
 
 const fetchGlobal = store => store.dispatch('FETCH_GLOBAL')
 const fetchArticle = async store => {
@@ -47,6 +48,13 @@ export default {
         //     document.querySelector('.loading').className="loading";
         //     document.getElementsByTagName('body')[0].style.overflow = 'auto';
         // },1000)
+        // document.querySelector('.preloader').className="preloader loading";
+        // document.getElementsByTagName('body')[0].style.overflow = 'hidden';
+        // next();
+        // setTimeout(()=>{
+        //     document.querySelector('.preloader').className="preloader";
+        //     document.getElementsByTagName('body')[0].style.overflow = 'auto';
+        // },1500)
         next()
     },
     watch: {
@@ -56,6 +64,7 @@ export default {
     },
     mounted() {
         console.log(this.$store.state.article._id)
+        api.readings(this.$route.params);
     },
     methods: {
         abc(){

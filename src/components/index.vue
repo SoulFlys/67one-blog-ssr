@@ -33,34 +33,36 @@
             <div class="con">
                 <h3>近况</h3>
                 <transition-group name="article-list" tag="div" class="article-list">
-                    <article v-for="item in articleList" :key="item">
-                        <div class="art-pic">
-                            <a href="#">
-                                <i class="iconfont">&#xe643;</i>
-                                <img src="../assets/imgs/tianchen.jpg" alt="" />
-                            </a>
-                        </div>
+                    <article v-for="(item,key) in articleList" :key="item">
                         <div class="art-comment">
                             <p><i class="iconfont">&#xe624;</i>5 条评论</p>
-                            <p><i class="iconfont">&#xe609;</i>15 热度</p>
+                            <p><i class="iconfont">&#xe609;</i>{{item.readings}} 热度</p>
                         </div>
-                        <div class="art-con">
+                        <div class="art-pic" v-if="item.image">
+                            <router-link :to="'/article/'+item._id" >
+                                <i class="iconfont">&#xe643;</i>
+                                <img src="../assets/imgs/tianchen.jpg" alt="" />
+                            </router-link>
+                        </div>
+                        <div class="art-con" :class="{'art-no-img': !item.image}">
                             <div class="art-title">
-                                <div class="title"><a href="#">{{item.title}}</a></div>
+                                <div class="title">
+                                    <router-link :to="'/article/'+item._id" >{{item.title}}</router-link>
+                                </div>
                                 <p>
-                                    <i class="iconfont hot">&#xe675;</i>
+                                    <i class="iconfont hot" v-if="key < 3">&#xe675;</i>
                                     <i class="iconfont">&#xe711;</i>
-                                    2016-07-23
+                                    {{item.meta.updateAt | formatDate('yyyy-MM-dd')}}
                                 </p>
                             </div>
                             <div class="art-text">
                                 <p>
-                                    终于开始有东西可以做了，是不是很开心呢....
+                                    {{item.description}}
                                 </p>
                             </div>
                             <div class="art-info">
                                 <p>
-                                    <a href="#"><i class="iconfont">&#xe7f0;</i></a>
+                                    <router-link :to="'/article/'+item._id" ><i class="iconfont">&#xe7f0;</i></router-link>
                                 </p>
                             </div>
                         </div>
@@ -68,7 +70,8 @@
                     </article>
                 </transition-group>
                 <div class="page" v-show="loadingMore">
-                    <a @click.prevent="clickloadingMore">加载更多</a>
+                    <a @click.prevent="clickloadingMore" v-show="!clickLoading">加载更多</a>
+                    <a class="loadingMore" v-show="clickLoading"></a>
                 </div>
             </div>
         </div>
@@ -86,7 +89,9 @@ const fetchArticleList = store => store.dispatch('FETCH_ARTICLELIST')
 export default {
     name: 'index',
     data() {
-        return {}
+        return {
+            clickLoading:false
+        }
     },
     computed: {
         ...mapGetters({
@@ -106,14 +111,12 @@ export default {
     },
     methods: {
         clickloadingMore(event){
-            event.target.innerText = '';
-            event.target.className = 'loadingMore';
+            this.clickLoading = true;
             this.$store.commit('SET_CURRENTPAGE');
             setTimeout(()=>{
                 fetchArticleList(this.$store)
-                event.target.innerText = '加载更多';
-                event.target.className = '';
-            },1000)
+                this.clickLoading = false;
+            },1500)
         }
     },
     components: {
@@ -190,7 +193,7 @@ export default {
                                 height: 162px
         .con
             width: 100%
-            padding: 80px 0 0
+            padding: 60px 0 0
             h3
                 color: $index-h3
                 font-size: 16px
@@ -207,6 +210,8 @@ export default {
                 margin-bottom:30px
                 relative: z-index 1
                 transition: all 1s
+                box-sizing:border-box
+                /*display:flex;*/
                 &:hover
                     .art-comment
                         left:-92px
@@ -214,8 +219,10 @@ export default {
                 .art-pic
                     width:100px
                     float: left
-                    margin-top: 10px
+                    /*margin-top: 10px*/
                     relative: z-index 2
+                    margin-right:25px
+                    /*flex:1*/
                     &:hover
                         a
                             i
@@ -246,9 +253,8 @@ export default {
                             border: 1px solid $index-picBorder
                             border-radius:50%
                             box-sizing()
-
                 .art-comment
-                    absolute: top 32px left -25px
+                    absolute: top 25px left -25px
                     z-index:0
                     border-top: 1px solid $index-commentBoderTop
                     padding-top:8px
@@ -260,15 +266,20 @@ export default {
                         line-height:27px
                         i
                             margin-right: 10px
-
                 .art-con
-                    width:670px
-                    margin-left:30px
-                    float: left
+                    &.art-no-img{
+                        padding-left:0
+                    }
+                    /*float: left*/
+                    width: 100%
+                    padding-left:130px
+                    /*flex:auto*/
+                    /*width: 675px*/
+                    box-sizing: border-box
                     .art-title
                         relative:top left
                         .title
-                            width:520px
+                            width:70%
                             white-space: nowrap
                             overflow: hidden
                             text-overflow: ellipsis
@@ -301,10 +312,10 @@ export default {
                             -webkit-box-orient: vertical
                             -webkit-line-clamp: 2
                     .art-info
-                        margin-top: 5px
+                        /*margin-top: 5px*/
                         user-select:none
                         p
-                            line-height: 35px
+                            line-height: 31px
                             text-align: right
                             a
                                 cursor: pointer
@@ -319,4 +330,8 @@ export default {
                     margin: 0 auto
                     border: 0
                     background: $index-artHr
+                    position: absolute
+                    top: 105%
+                    left: 0
+                    right: 0
 </style>

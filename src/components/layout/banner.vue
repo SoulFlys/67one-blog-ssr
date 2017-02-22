@@ -46,7 +46,7 @@ export default {
     name: 'banner',
     data() {
         return {
-            rootUrl:'http://localhost:3000'
+            rootUrl:'http://192.168.199.224:3000'
         }
     },
     computed: {
@@ -171,5 +171,6 @@ export default {
                                     opacity: 1
                                     transform: translate3d(0,10px,0)
                                     visibility: visible
+
 
 </style>

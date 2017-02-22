@@ -131,9 +131,10 @@ const store = new Vuex.Store({
         getArticleList: state => state.articleList,
         getLoadingMore: state => state.loadingMore,
         getAllArticleList: state => {
-            _.each(state.allArticleList,(item)=>{
+            _.each(state.allArticleList,(item,key)=>{
                 item.groupByDate = formatDate(item.meta.createAt,'yyyy-MM')
             })
+
             return _.groupBy(state.allArticleList,'groupByDate');
         }
     }

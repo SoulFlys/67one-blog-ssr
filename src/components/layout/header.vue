@@ -6,14 +6,14 @@
                 <img :src="rootUrl + basis.logo" alt="" />
             </router-link>
         </div>
-        <div class="search">
+        <!-- <div class="search">
             <i class="icon iconfont">&#xe605;</i>
-        </div>
+        </div> -->
         <nav>
             <ul>
-                <li v-for="item in category">
-                    <router-link :to="item.router" v-if="item.type == 1">{{item.name}}</router-link>
-                    <router-link :to="'/article/'+item.router" v-else>{{item.name}}</router-link>
+                <li v-for="items in category">
+                    <router-link :to="items.router" v-if="items.type == 1">{{items.name}}</router-link>
+                    <router-link :to="'/article/'+items.router" v-else>{{items.name}}</router-link>
                 </li>
                 <!-- <li><router-link to="/">首页</router-link></li>
                 <li><router-link to="/archive">归档</router-link></li>
@@ -43,7 +43,7 @@ export default {
     name: 'header',
     data() {
         return {
-            rootUrl:'http://localhost:3000'
+            rootUrl:'http://192.168.199.224:3000'
         }
     },
     computed: {
@@ -54,10 +54,9 @@ export default {
     },
     mounted() {
         // console.log(this.$store.state.basis.logo)
+        // console.log(this.$store.state.category)
     },
-    methods: {
-
-    },
+    methods: {},
     components: {}
 }
 </script>
@@ -162,5 +161,4 @@ header
     100%
         opacity:1
         transform:translateY(0)
-
 </style>

@@ -18,7 +18,7 @@ export default {
     name: 'footer',
     data() {
         return {
-            rootUrl:'http://localhost:3000'
+
         }
     },
     computed: {
