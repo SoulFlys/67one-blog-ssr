@@ -1,5 +1,5 @@
 <template lang="html">
-    <div class="con">
+    <div class="article con">
         <div class="title">
             <h1>{{article.title}}</h1>
             <hr>
@@ -7,15 +7,50 @@
         <div class="main">
             <div class="markdown" id="markdown" v-html="article.content"></div>
         </div>
-        <button type="button" name="button" @click="abc">评论</button>
-        <div id="comment-box"></div>
-
+        <div class="tags">
+            <div class="tag">
+                <i class="iconfont">&#xe60c;</i>
+                <a href="#">vue</a>
+                <a href="#">nodejs</a>
+            </div>
+            <div class="like">
+                <i class="iconfont">&#xe624;</i>
+                <span class="ds-thread-count" data-thread-key="58a2ce5d5087c9455079f1b1"></span>
+                <i class="iconfont">&#xe609;</i>
+                <span>20</span>
+                <i class="iconfont">&#xe711;</i>
+                <span>2017-05-12</span>
+            </div>
+        </div>
+        <div class="author">
+            <div class="author-info">
+                <a href="#" class="author-img">
+                    <img :src="rootUrl+basis.pic" alt="" />
+                </a>
+                <p>
+                    <a href="#">67one</a>
+                </p>
+            </div>
+            <div class="author-motto">
+                <p>
+                    <i class="iconfont">&#xe60b;</i>时光笑我温暖如阳
+                </p>
+            </div>
+        </div>
+        <div class="comment">
+            <div class="comment-btn" @click="abc" v-show="comment">
+                <i class="iconfont">&#xe624;</i>查看评论
+            </div>
+        </div>
+        <div id="comment-box" v-show="!comment"></div>
     </div>
+
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import * as api from '../../store/api'
+
 
 const fetchGlobal = store => store.dispatch('FETCH_GLOBAL')
 const fetchArticle = async store => {
@@ -26,12 +61,14 @@ const fetchArticle = async store => {
 export default {
     data() {
         return {
-
+            rootUrl:'http://192.168.199.224:3000',
+            comment: true
         }
     },
     computed: {
         ...mapGetters({
-            article: 'getArticle'
+            article: 'getArticle',
+            basis: 'getBasis'
         })
     },
     preFetch: fetchArticle,
@@ -60,6 +97,7 @@ export default {
     watch: {
         '$route'() {
             fetchArticle(this.$store)
+            this.comment = true
         }
     },
     mounted() {
@@ -68,6 +106,14 @@ export default {
     },
     methods: {
         abc(){
+            // var shortName = "67one";
+            // var threads = "58aaba2e3ae1fb135932a81e";
+            // var jsonUrl = "http://api.duoshuo.com/threads/counts.jsonp?short_name=" + shortName + "&threads=" + threads +  "&callback=?";
+            // jQuery.getJSON(jsonUrl, function(result) {
+            //     console.log(result)
+            // })
+
+            this.comment = false
             var el = document.createElement('div');//该div不需要设置class="ds-thread"
             el.setAttribute('data-thread-key', '58a2ce5d5087c9455079f1b1');//必选参数
             el.setAttribute('data-url', 'http://localhost:8088/article/58a2ce5d5087c9455079f1b1');//必选参数
@@ -99,72 +145,107 @@ export default {
             border: 0
             background: #EFEFEF
             margin: 20px 0
+    .markdown
+        h3
+            padding-bottom: 8px
+            border-bottom: 1px dashed #ddd
+            color: #737373
+            &:before
+                content: "["
+                margin-right: 5px
+                color: #FF6D6D
+                font-size: 25px
+            &:after
+                content: "]"
+                margin-left: 5px
+                color: #FF6D6D
+                font-size: 25px
+    .tags
+        padding: 20px 0
+        border-bottom: 1px dashed #ddd
+        border-top: 1px dashed #ddd
+        margin-top: 30px
+        height: 65px
+        box-sizing:border-box
+        .tag
+            float: left;
+            font-size: 13px;
+            color: #B3B3B3;
+            text-transform: uppercase;
+            font-family: din,'Hiragino Sans GB','Microsoft Yahei',Arial,sans-serif;
+            i
+                margin-right:10px
+            a
+                color: #B3B3B3
+                margin-right: 5px
+        .like
+            float: right
+            font-size: 13px;
+            color: #B3B3B3;
+            text-transform: uppercase;
+            font-family: din,'Hiragino Sans GB','Microsoft Yahei',Arial,sans-serif;
+            i
+                margin-right:3px
+            span
+                color: #B3B3B3
+                margin-right: 10px
 
 
+    .author
+        padding: 50px 12.78%
+        text-align: center
+        .author-info
+            .author-img
+                width: 60px
+                height: 60px
+                display: inline-block
+                img
+                    border-radius: 50%
+                    padding:3px
+                    border: 1px solid #ddd
+                    box-sizing: border-box
+            p
+                a
+                    font-size: 16px
+                    font-weight: 400
+                    line-height: normal
+                    letter-spacing: 1px
+                    color: #ABABAB
+        .author-motto
+            p
+                font-size: 13px
+                line-height: 30px
+                margin: 20px 0 25px
+                color: #7d8588
+                letter-spacing: 2px
+                display: inline-block
+                padding: 10px 30px
+                border-top: 1px solid #EFEFEF
+                border-bottom: 1px solid #EFEFEF
+                box-sizing: border-box
+                i
+                    float: left
+                    margin-right: 10px
+                    color: #65C186
 
-// .main ul {
-//     list-style: disc;
-//     background: #F9F9F9;
-//     border: 1px dashed #E4E4E4;
-//     padding: 15px 10px 15px 50px;
-//     color: #616161;
-//     margin-left: 0;
-// }
-//
-// .main ol {
-//     list-style: decimal;
-//     background: #F9F9F9;
-//     border: 1px dashed #E4E4E4;
-//     padding: 15px 10px 15px 50px;
-//     color: #616161;
-//     margin-left: 0;
-// }
-//
-// .main ol li,
-// .main ul li {
-//     padding: 8px 0;
-// }
-//
-// .main {
-//     position: relative;
-// }
-//
-// .main h3 {
-//     padding-bottom: 8px;
-//     border-bottom: 1px dashed #ddd;
-//     color: #737373;
-// }
-// .main h3:before {
-//     content: "[";
-//     margin-right: 5px;
-//     color: #FF6D6D;
-//     font-size: 25px;
-// }
-// .main h3:after {
-//     content: "]";
-//     margin-left: 5px;
-//     color: #FF6D6D;
-//     font-size: 25px;
-// }
-//
-// .main code {
-//     background: #F9F9F9;
-//     color: #D07C7C;
-//     padding: 3px;
-//     border: 1px dashed #ddd;
-// }
-//
-// .main a {
-//     color: #E67474;
-//     text-decoration: underline;
-// }
-// .main a:hover {
-//     color: #72C5A6;
-// }
-//
-// .main p {
-//     color: #565656;
-//     font-weight: 400;
-//     line-height: 30px;
-// }
+    .comment
+        .comment-btn
+            padding: 17px 32px 15px
+            background: #FFFFFF
+            color: #6F6F6F
+            width: 160px
+            margin: 0 auto
+            border: 1px solid #C7C7C7
+            box-sizing: border-box
+            font-family: microsoft yahei;
+            cursor:pointer
+            i
+                margin-right: 10px
+
+    #comment-box
+        #ds-waiting
+            background: url('../../assets/imgs/postload.gif') center no-repeat
+            color: #555
+            border: none
+
 </style>

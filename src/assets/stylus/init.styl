@@ -27,7 +27,8 @@ input:-webkit-autofill
 
 
 .view
-    padding-top: 100px
+    padding-top:100px
+
 
 .page
     width: 100%
@@ -57,10 +58,18 @@ input:-webkit-autofill
     header{
         height:56px;
         padding:5px;
+        border-bottom: 0;
         .header-con{
             width:100%;
             nav{
                 margin:0;
+                ul{
+                    li{
+                        a{
+                            padding: 0 10px;
+                        }
+                    }
+                }
             }
             .logo{
                 height:56px;
@@ -72,7 +81,12 @@ input:-webkit-autofill
             }
         }
     }
+    .content{
+        padding:0 15px
+        box-sizing: border-box
+    }
     .banner{
+        display: none;
         .banner-center{
             .banner-info{
                 width:100%;
@@ -85,9 +99,12 @@ input:-webkit-autofill
         }
         .content{
             width:100%;
+            .notice{
+                margin-bottom: 40px;
+            }
             .con{
+                padding: 0;
                 article{
-                    padding:0 15px;
                     .art-pic{
                         display: none
                     }
@@ -101,9 +118,32 @@ input:-webkit-autofill
     }
     .archive{
         width:100%;
+        padding:60px 15px 0
+        box-sizing: border-box
     }
     .links{
         width:100%;
+        padding:60px 15px 0
+        box-sizing: border-box
+        .con{
+            .link-ul{
+                .link-li{
+                    width:100%
+                }
+            }
+        }
+
+    }
+    .article{
+        width:100%;
+        padding:60px 15px 0
+        box-sizing: border-box
+    }
+    aside{
+        .goTop{
+            right:0;
+            border-radius: 0
+        }
     }
 }
 }

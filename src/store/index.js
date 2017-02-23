@@ -59,7 +59,7 @@ const store = new Vuex.Store({
         },
         //获取某一篇文章
         async FETCH_ARTICLE({commit, state}) {
-            let { data:data,status } = await api.fetch('/blog/article/findById',state.route.params);
+            let { data:data } = await api.fetch('/blog/article/findById',state.route.params);
             commit('SET_ARTICLE', data)
         },
         //获取文章列表

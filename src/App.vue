@@ -8,7 +8,7 @@
     <w-footer></w-footer>
     <aside>
         <div class="goTop" @click="goTop" :style="{display:isShowGoTop ? 'block' : 'none'}">
-            <i>1</i>
+            <i class="iconfont">&#xe630;</i>
         </div>
     </aside>
     <div class="preloader">
@@ -122,6 +122,9 @@ aside
         z-index:102
         background-color:#5c5c5c
         border-radius: 50%
+        i
+            font-size: 28px
+            color: #ffffff
         &:hover
             animation: btn-pudding 1s linear
 @keyframes btn-pudding

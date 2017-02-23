@@ -1,6 +1,6 @@
 import axios from 'axios'
 import store from './index'
-
+import $ from 'jquery'
 // const defaults = {
 //     baseURL: 'http://localhost:3000/67api'
 // }
@@ -14,26 +14,26 @@ const shouldCache = api.onServer
 
 // Object.assign(axios.defaults, defaults)
 
-axios.interceptors.request.use(config => {
-    // store.dispatch('gStart')
-    // store.dispatch('FETCH_GLOBAL')
-    console.log('开始发送请求',new Date())
-    return config
-}, error => {
-    console.log('错误')
-    return Promise.reject(error)
-})
-//拦截请求加载动画
-
-axios.interceptors.response.use(response => {
-    // store.dispatch('gFinish')
-
-    console.log('相应成功',new Date())
-    return response
-}, error => {
-    console.log('响应失败')
-    return Promise.reject(error)
-})
+// axios.interceptors.request.use(config => {
+//     // store.dispatch('gStart')
+//     // store.dispatch('FETCH_GLOBAL')
+//     console.log('开始发送请求',new Date())
+//     return config
+// }, error => {
+//     console.log('错误')
+//     return Promise.reject(error)
+// })
+// //拦截请求加载动画
+//
+// axios.interceptors.response.use(response => {
+//     // store.dispatch('gFinish')
+//
+//     console.log('相应成功',new Date())
+//     return response
+// }, error => {
+//     console.log('响应失败')
+//     return Promise.reject(error)
+// })
 
 // export const fetchApp = (model, query) => {
 //     const target = `${prefix}${model}`
@@ -66,6 +66,18 @@ export const fetch = (model, query) => {
         return response
     })
 }
+
+// export const fetchDuoshuo = (model, query) => {
+//     var shortName = "67one";
+//     var threads = "58aaba2e3ae1fb135932a81e";
+//
+//     var jsonUrl = "http://api.duoshuo.com/threads/counts.jsonp?short_name=" + shortName + "&threads=" + threads +  "&callback=?";
+//
+//     return $.getJSON(jsonUrl, (result)=> {
+//         return result
+//     })
+// }
+
 
 // export const fetch1 = (model, query) => {
 //     const target = `${prefix}${model}`

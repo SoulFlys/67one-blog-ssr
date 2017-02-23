@@ -74,7 +74,7 @@ export default {
             width: 100%
             dib()
             .link-li
-                width: 256px //32%
+                width: 32% //32%
                 float: left
                 border: 1px solid $links-linkLiBor
                 padding: 10px 30px

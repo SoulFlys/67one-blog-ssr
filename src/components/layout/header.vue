@@ -9,6 +9,9 @@
         <!-- <div class="search">
             <i class="icon iconfont">&#xe605;</i>
         </div> -->
+        <span class="nav-phone">
+            按钮
+        </span>
         <nav>
             <ul>
                 <li v-for="items in category">
@@ -153,7 +156,14 @@ header
                                 linHeight(20px)
                                 &:hover
                                     color:red
-
+        .nav-phone
+            display:none
+            float:right
+            width:40px;
+            height:40px;
+            margin: 8px 10px 8px 0;
+            border:1px solid #ddd;
+            cursor:pointer
 @keyframes fadeInUp
     0%
         opacity:0

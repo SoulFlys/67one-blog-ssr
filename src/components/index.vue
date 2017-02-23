@@ -35,7 +35,7 @@
                 <transition-group name="article-list" tag="div" class="article-list">
                     <article v-for="(item,key) in articleList" :key="item">
                         <div class="art-comment">
-                            <p><i class="iconfont">&#xe624;</i>5 条评论</p>
+                            <p><i class="iconfont">&#xe624;</i>{{item.comment}} 条评论</p>
                             <p><i class="iconfont">&#xe609;</i>{{item.readings}} 热度</p>
                         </div>
                         <div class="art-pic" v-if="item.image">
