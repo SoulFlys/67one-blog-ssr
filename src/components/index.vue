@@ -41,7 +41,7 @@
                         <div class="art-pic" v-if="item.image">
                             <router-link :to="'/article/'+item._id" >
                                 <i class="iconfont">&#xe643;</i>
-                                <img src="../assets/imgs/tianchen.jpg" alt="" />
+                                <img :src="rootUrl+item.image" alt="" />
                             </router-link>
                         </div>
                         <div class="art-con" :class="{'art-no-img': !item.image}">
@@ -81,6 +81,7 @@
 <script>
 import wBanner from './layout/banner';
 import {mapGetters} from 'vuex'
+import {host} from '../store/config'
 
 const fetchGlobal = store => store.dispatch('FETCH_GLOBAL')
 const fetchBasis = store => store.dispatch('FETCH_BASIS')
@@ -90,6 +91,7 @@ export default {
     name: 'index',
     data() {
         return {
+            rootUrl: host,
             clickLoading:false
         }
     },
@@ -203,13 +205,13 @@ export default {
                 margin:10px 0
             .article-list-enter, .article-list-leave-active
                 opacity: 0
-                transform: translateY(30px)
+                /*transform: translateY(30px)*/
             article
                 clearfix()
                 width:100%
                 margin-bottom:30px
                 relative: z-index 1
-                transition: all 1s
+                transition: opacity 1s
                 box-sizing:border-box
                 /*display:flex;*/
                 &:hover

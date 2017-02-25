@@ -100,13 +100,13 @@ export default {
   },
   preFetch: fetchAllArticleList,
   beforeMount() {
-      console.log('allArticleList.length',!this.$store.state.allArticleList.length)
+    //   console.log('allArticleList.length',!this.$store.state.allArticleList.length)
       if(!this.$store.state.allArticleList.length){
           fetchAllArticleList(this.$store)
       }
   },
   mounted () {
-      console.log(this.$store.state.allArticleList.length)
+    //   console.log(this.$store.state.allArticleList.length)
     //   console.log(window.__INITIAL_STATE__);
   },
   methods: {

@@ -1,4 +1,5 @@
 import LRU from 'lru-cache'
+import { hostApi } from './config'
 
 const isProd = process.env.NODE_ENV === 'production'
 
@@ -7,7 +8,7 @@ if (process.__API__) {
   api = process.__API__
 } else {
   api = process.__API__ = {
-    host: 'http://localhost:3000/67api',
+    host: hostApi,
     onServer: true,
     cache: LRU({
       max: 1000,

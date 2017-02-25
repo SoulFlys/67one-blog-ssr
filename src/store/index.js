@@ -23,6 +23,8 @@ marked.setOptions({
 
 const store = new Vuex.Store({
     state: {
+        isLoadingAsyncComponent: false,
+        progress: 0,
         category: [],
         basis: {},
         links: [],
@@ -36,6 +38,23 @@ const store = new Vuex.Store({
         loadingMore: true   //首页加载更多
     },
     actions: {
+        SET_PROGRESS: ({ commit, state }, progress) => {
+          commit('SET_PROGRESS_VALUE', progress)
+        },
+
+        START_LOADING: ({ commit, state, dispatch }) => {
+          dispatch('SET_PROGRESS', 30)
+          let interval = setInterval(() => {
+            let progress = state.progress
+            if (progress < 90) {
+              let target = progress + 10
+              dispatch('SET_PROGRESS', target)
+            }
+          }, 400)
+          return interval
+        },
+
+
         async FETCH_GLOBAL({commit, state}) {
             let pagination = {currentPage:state.currentPage,pageSize:state.pageSize};
             let params = Object.assign(pagination,state.route.params)
@@ -58,13 +77,30 @@ const store = new Vuex.Store({
             commit('SET_LINKS', data)
         },
         //获取某一篇文章
-        async FETCH_ARTICLE({commit, state}) {
-            let { data:data } = await api.fetch('/blog/article/findById',state.route.params);
+        async FETCH_ARTICLE({ commit, state, dispatch },{ query, callback } ) {
+            let { data:data } = await api.fetch('/blog/article/findById',query);
             commit('SET_ARTICLE', data)
+            callback && callback()
         },
+        // FETCH_TAGS: ({ commit, state, dispatch }, { model, query, callback }) => {
+        //   return api.fetch(model, query).then(result => {
+        //     let tags = result.reduce((prev, curr) => {
+        //       curr.tags.forEach(tag => {
+        //         if (typeof prev[tag] === 'undefined') {
+        //           prev[tag] = 1
+        //         } else {
+        //           prev[tag] = prev[tag] + 1
+        //         }
+        //       })
+        //       return prev
+        //     }, {})
+        //     commit('SET_TAGS', { tags })
+        //     callback && callback()
+        //   })
+        // },
         //获取文章列表
         async FETCH_ARTICLELIST({commit, state}) {
-            let { data:data,status } = await api.fetch('/blog/article',{currentPage:state.currentPage,pageSize:state.pageSize})
+            let { data:data } = await api.fetch('/blog/article',{currentPage:state.currentPage,pageSize:state.pageSize})
             commit('SET_ARTICLELIST', data)
         },
         //获取所有文章列表
@@ -74,6 +110,10 @@ const store = new Vuex.Store({
         },
     },
     mutations: {
+        SET_PROGRESS_VALUE: (state, progress) => {
+          Vue.set(state, 'progress', progress)
+        },
+
         SET_GLOBAL(state, data){
             state.category = data.category;
             state.basis = data.basis;
@@ -101,7 +141,6 @@ const store = new Vuex.Store({
             state.links = data
         },
         SET_ARTICLE(state, data){
-            // console.log('SET_ARTICLE',data)
             data.content = marked(data.content)
             state.article = data
         },
@@ -118,16 +157,25 @@ const store = new Vuex.Store({
             })
         },
         SET_ALLARTICLELIST(state, data){
-            // console.log('set-all-list',data);
             state.allArticleList = data
         }
     },
 
     getters: {
+        progress (state) {
+          return state.progress
+        },
+        isLoadingAsyncComponent (state) {
+          return state.isLoadingAsyncComponent
+        },
         getCategory: state => state.category,
         getBasis: state => state.basis,
         getLinks: state => _.groupBy(state.links,'type'),
-        getArticle: state => state.article,
+        getArticle: state => {
+            state.article.createAt = state.article.meta.createAt
+            state.article.updateAt = state.article.meta.updateAt
+            return state.article
+        },
         getArticleList: state => state.articleList,
         getLoadingMore: state => state.loadingMore,
         getAllArticleList: state => {

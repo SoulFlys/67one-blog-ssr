@@ -1,6 +1,6 @@
 import axios from 'axios'
 import store from './index'
-import $ from 'jquery'
+
 // const defaults = {
 //     baseURL: 'http://localhost:3000/67api'
 // }
@@ -66,17 +66,6 @@ export const fetch = (model, query) => {
         return response
     })
 }
-
-// export const fetchDuoshuo = (model, query) => {
-//     var shortName = "67one";
-//     var threads = "58aaba2e3ae1fb135932a81e";
-//
-//     var jsonUrl = "http://api.duoshuo.com/threads/counts.jsonp?short_name=" + shortName + "&threads=" + threads +  "&callback=?";
-//
-//     return $.getJSON(jsonUrl, (result)=> {
-//         return result
-//     })
-// }
 
 
 // export const fetch1 = (model, query) => {

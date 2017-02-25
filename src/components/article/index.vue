@@ -15,11 +15,11 @@
             </div>
             <div class="like">
                 <i class="iconfont">&#xe624;</i>
-                <span class="ds-thread-count" data-thread-key="58a2ce5d5087c9455079f1b1"></span>
+                <span>{{article.comment}}</span>
                 <i class="iconfont">&#xe609;</i>
-                <span>20</span>
+                <span>{{article.readings}}</span>
                 <i class="iconfont">&#xe711;</i>
-                <span>2017-05-12</span>
+                <span>{{article.createAt | formatDate('yyyy-MM-dd')}}</span>
             </div>
         </div>
         <div class="author">
@@ -43,6 +43,16 @@
             </div>
         </div>
         <div id="comment-box" v-show="!comment"></div>
+
+
+        <div id="SOHUCS" ></div>
+        <!-- <script charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/changyan.js" ></script>
+        <script type="text/javascript">
+        window.changyan.api.config({
+        appid: 'cyrktPNjT',
+        conf: 'prod_a00cd669fe4f7e0eb5fba559ea485c82'
+        });
+        </script> -->
     </div>
 
 </template>
@@ -50,7 +60,8 @@
 <script>
 import { mapGetters } from 'vuex'
 import * as api from '../../store/api'
-
+import { host } from '../../store/config'
+// import '../../lib/changyan'
 
 const fetchGlobal = store => store.dispatch('FETCH_GLOBAL')
 const fetchArticle = async store => {
@@ -58,10 +69,30 @@ const fetchArticle = async store => {
     await store.dispatch('FETCH_ARTICLE')
 }
 
+const preFetch = (store, { path: pathName, params, query }, callback) => {
+    return store.dispatch('FETCH_ARTICLE',{query:store.state.route},callback})
+}
+// function preFetch (store, { path: pathName, params, query }, callback) {
+//   return store.dispatch('FETCH_TAGS', {
+//     model: 'post',
+//     query: {
+//       conditions: {
+//         type: 'post',
+//         isPublic: true
+//       },
+//       select: {
+//         _id: 0,
+//         tags: 1
+//       }
+//     },
+//     callback
+//   })
+// }
+
 export default {
     data() {
         return {
-            rootUrl:'http://192.168.199.224:3000',
+            rootUrl:host,
             comment: true
         }
     },
@@ -71,7 +102,7 @@ export default {
             basis: 'getBasis'
         })
     },
-    preFetch: fetchArticle,
+    preFetch: preFetch,
     beforeMount() {
         if(this.$route.params.id !== this.$store.state.article._id){
             fetchArticle(this.$store)
@@ -101,25 +132,12 @@ export default {
         }
     },
     mounted() {
-        console.log(this.$store.state.article._id)
+        // console.log(this.$store.state.article._id)
         api.readings(this.$route.params);
     },
     methods: {
         abc(){
-            // var shortName = "67one";
-            // var threads = "58aaba2e3ae1fb135932a81e";
-            // var jsonUrl = "http://api.duoshuo.com/threads/counts.jsonp?short_name=" + shortName + "&threads=" + threads +  "&callback=?";
-            // jQuery.getJSON(jsonUrl, function(result) {
-            //     console.log(result)
-            // })
 
-            this.comment = false
-            var el = document.createElement('div');//该div不需要设置class="ds-thread"
-            el.setAttribute('data-thread-key', '58a2ce5d5087c9455079f1b1');//必选参数
-            el.setAttribute('data-url', 'http://localhost:8088/article/58a2ce5d5087c9455079f1b1');//必选参数
-            // el.setAttribute('data-author-key', '作者的本地用户ID');//可选参数
-            DUOSHUO.EmbedThread(el);
-            jQuery('#comment-box').append(el);
         }
     }
 }

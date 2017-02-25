@@ -1,6 +1,6 @@
 <template>
 <div id="app">
-    <!-- <w-progress></w-progress> -->
+    <w-progress :progress="progress"></w-progress>
     <w-header></w-header>
     <transition name="fade" mode="out-in">
         <router-view class="view"></router-view>
@@ -18,16 +18,22 @@
 </template>
 
 <script>
-// import wProgress from 'components/layout/progress';
+import { mapGetters } from 'vuex'
+import wProgress from 'components/layout/progress';
 import wHeader from 'components/layout/header';
 import wFooter from 'components/layout/footer';
 
 export default {
     name: 'app',
     components: {
-        //wProgress,
+        wProgress,
         wHeader,
         wFooter
+    },
+    computed: {
+        ...mapGetters([
+          'progress'
+        ])
     },
     data(){
         return {

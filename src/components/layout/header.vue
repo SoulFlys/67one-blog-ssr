@@ -40,13 +40,13 @@
 
 <script>
 import { mapGetters } from 'vuex'
-
+import { host } from '../../store/config'
 
 export default {
     name: 'header',
     data() {
         return {
-            rootUrl:'http://192.168.199.224:3000'
+            rootUrl:host
         }
     },
     computed: {
