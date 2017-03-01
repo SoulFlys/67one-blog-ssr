@@ -5,6 +5,7 @@ import { app, store } from './app'
 // the state is determined during SSR and inlined in the page markup.
 store.replaceState(window.__INITIAL_STATE__)
 
+console.log('client-entry');
 // actually mount to DOM
 app.$mount('#app')
 

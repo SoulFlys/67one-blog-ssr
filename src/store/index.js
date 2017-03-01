@@ -77,10 +77,18 @@ const store = new Vuex.Store({
             commit('SET_LINKS', data)
         },
         //获取某一篇文章
-        async FETCH_ARTICLE({ commit, state, dispatch },{ query, callback } ) {
-            let { data:data } = await api.fetch('/blog/article/findById',query);
-            commit('SET_ARTICLE', data)
-            callback && callback()
+        FETCH_ARTICLE({ commit, state },{to,callback}) {
+            console.log(1,to);
+            console.log(2,callback);
+            return api.fetch('/blog/article/findById',to.params).then((result)=>{
+                let data = result.data;
+                console.log('data',data)
+                commit('SET_ARTICLE', data)
+                console.log('Fetch',callback)
+                callback && callback()
+            });
+            // let { data:data,status } = await api.fetch('/blog/article/findById');
+            // console.log('data',data)
         },
         // FETCH_TAGS: ({ commit, state, dispatch }, { model, query, callback }) => {
         //   return api.fetch(model, query).then(result => {
@@ -124,10 +132,10 @@ const store = new Vuex.Store({
                 state.loadingMore = false;
             }
 
-            if(!_.isEmpty(data.article)){
-                data.article.content = marked(data.article.content)
-                state.article = data.article;
-            }
+            // if(!_.isEmpty(data.article)){
+            //     data.article.content = marked(data.article.content)
+            //     state.article = data.article;
+            // }
         },
 
         //分类信息
@@ -172,8 +180,9 @@ const store = new Vuex.Store({
         getBasis: state => state.basis,
         getLinks: state => _.groupBy(state.links,'type'),
         getArticle: state => {
-            state.article.createAt = state.article.meta.createAt
-            state.article.updateAt = state.article.meta.updateAt
+            // state.article.createAt = state.article.meta.createAt
+            // state.article.updateAt = state.article.meta.updateAt
+            console.log(state.article)
             return state.article
         },
         getArticleList: state => state.articleList,

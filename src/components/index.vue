@@ -2,7 +2,7 @@
     <div class="index">
         <w-banner></w-banner>
         <div class="content">
-            <div class="notice">
+            <div class="notice" v-if="basis.tip">
                 <p><i class="iconfont">&#xe65a;</i>{{basis.tip}}</p>
             </div>
             <div class="main" v-show="false">

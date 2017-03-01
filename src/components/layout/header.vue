@@ -9,9 +9,6 @@
         <!-- <div class="search">
             <i class="icon iconfont">&#xe605;</i>
         </div> -->
-        <span class="nav-phone">
-            按钮
-        </span>
         <nav>
             <ul>
                 <li v-for="items in category">

@@ -19,7 +19,7 @@
                 <i class="iconfont">&#xe609;</i>
                 <span>{{article.readings}}</span>
                 <i class="iconfont">&#xe711;</i>
-                <span>{{article.createAt | formatDate('yyyy-MM-dd')}}</span>
+                <!-- <span>{{article.createAt | formatDate('yyyy-MM-dd')}}</span> -->
             </div>
         </div>
         <div class="author">
@@ -53,6 +53,7 @@
         conf: 'prod_a00cd669fe4f7e0eb5fba559ea485c82'
         });
         </script> -->
+        <router-link to="/article/58b3f23729b2ce2f90ab6d23">123456789</router-link>
     </div>
 
 </template>
@@ -64,13 +65,30 @@ import { host } from '../../store/config'
 // import '../../lib/changyan'
 
 const fetchGlobal = store => store.dispatch('FETCH_GLOBAL')
-const fetchArticle = async store => {
-    if(!store.state.category.length) await store.dispatch('FETCH_GLOBAL')
-    await store.dispatch('FETCH_ARTICLE')
-}
+// const fetchArticle = async store => {
+//     if(!store.state.category.length) await store.dispatch('FETCH_GLOBAL')
+//     await store.dispatch('FETCH_ARTICLE')
+// }
 
-const preFetch = (store, { path: pathName, params, query }, callback) => {
-    return store.dispatch('FETCH_ARTICLE',{query:store.state.route},callback})
+const preFetch = (store, to, callback) => {
+    console.log('index.vue',callback)
+    // store.dispatch('FETCH_GLOBAL')
+    // console.log(to,store.state.article._id)
+    console.log(process.env.NODE_ENV)
+    // if(to.params.id != store.state.article._id){
+    //     return store.dispatch('FETCH_ARTICLE',{to,callback})
+    // }else{
+        // callback && callback()
+    // }
+    if(process.env.NODE_ENV == 'development'){
+        return store.dispatch('FETCH_ARTICLE',{to,callback})
+    }else{
+        if(to.params.id != store.state.article._id){
+            return store.dispatch('FETCH_ARTICLE',{to,callback})
+        }else{
+            callback && callback()
+        }
+    }
 }
 // function preFetch (store, { path: pathName, params, query }, callback) {
 //   return store.dispatch('FETCH_TAGS', {
@@ -90,6 +108,7 @@ const preFetch = (store, { path: pathName, params, query }, callback) => {
 // }
 
 export default {
+    props:['article'],
     data() {
         return {
             rootUrl:host,
@@ -102,44 +121,28 @@ export default {
             basis: 'getBasis'
         })
     },
-    preFetch: preFetch,
-    beforeMount() {
-        if(this.$route.params.id !== this.$store.state.article._id){
-            fetchArticle(this.$store)
-        }
-    },
-    beforeRouteEnter(to, from, next){
-        // document.querySelector('.loading').className="loading aaa";
-        // document.getElementsByTagName('body')[0].style.overflow = 'hidden';
-        // next();
-        // setTimeout(()=>{
-        //     document.querySelector('.loading').className="loading";
-        //     document.getElementsByTagName('body')[0].style.overflow = 'auto';
-        // },1000)
-        // document.querySelector('.preloader').className="preloader loading";
-        // document.getElementsByTagName('body')[0].style.overflow = 'hidden';
-        // next();
-        // setTimeout(()=>{
-        //     document.querySelector('.preloader').className="preloader";
-        //     document.getElementsByTagName('body')[0].style.overflow = 'auto';
-        // },1500)
-        next()
-    },
-    watch: {
-        '$route'() {
-            fetchArticle(this.$store)
-            this.comment = true
-        }
-    },
-    mounted() {
-        // console.log(this.$store.state.article._id)
-        api.readings(this.$route.params);
-    },
-    methods: {
-        abc(){
-
-        }
-    }
+    // preFetch: preFetch,
+    // beforeMount() {
+    //     // if(this.$route.params.id !== this.$store.state.article._id){
+    //         // preFetch(this.$store)
+    //         console.log(123)
+    //     // }
+    // },
+    // watch: {
+    //     '$route'() {
+    //         // fetchArticle(this.$store)
+    //         // this.comment = true
+    //     }
+    // },
+    // mounted() {
+    //     // console.log(this.$store.state.article._id)
+    //     // api.readings(this.$route.params);
+    // },
+    // methods: {
+    //     abc(){
+    //
+    //     }
+    // }
 }
 </script>
 

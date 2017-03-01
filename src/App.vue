@@ -1,11 +1,11 @@
 <template>
 <div id="app">
-    <w-progress :progress="progress"></w-progress>
-    <w-header></w-header>
+    <!-- <w-progress :progress="progress"></w-progress> -->
+    <!-- <w-header></w-header> -->
     <transition name="fade" mode="out-in">
         <router-view class="view"></router-view>
     </transition>
-    <w-footer></w-footer>
+    <!-- <w-footer></w-footer> -->
     <aside>
         <div class="goTop" @click="goTop" :style="{display:isShowGoTop ? 'block' : 'none'}">
             <i class="iconfont">&#xe630;</i>
@@ -87,11 +87,10 @@ export default {
 .fade-enter-active, .fade-leave-active
     transition: all 0.5s ease
 .fade-enter
-    opacity: 1;
-    /*transform: translate3d(0, 100px, 0)*/
+    opacity: 1
     transform: translate3d(-100px, 0, 0)
 .fade-leave-active
-    opacity: 0;
+    opacity: 0
     transform: translate3d(100px, 0, 0)
 .preloader
     position: fixed

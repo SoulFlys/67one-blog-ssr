@@ -1,4 +1,5 @@
 process.env.VUE_ENV = 'server'
+process.traceDeprecation = true
 const isProd = process.env.NODE_ENV === 'production'
 
 const fs = require('fs')
