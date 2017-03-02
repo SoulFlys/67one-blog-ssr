@@ -1,11 +1,11 @@
 <template>
 <div id="app">
     <!-- <w-progress :progress="progress"></w-progress> -->
-    <!-- <w-header></w-header> -->
+    <w-header></w-header>
     <transition name="fade" mode="out-in">
         <router-view class="view"></router-view>
     </transition>
-    <!-- <w-footer></w-footer> -->
+    <w-footer></w-footer>
     <aside>
         <div class="goTop" @click="goTop" :style="{display:isShowGoTop ? 'block' : 'none'}">
             <i class="iconfont">&#xe630;</i>
@@ -42,7 +42,7 @@ export default {
         }
     },
     mounted() {
-        this.scroll();
+        // this.scroll();
     },
     methods: {
         scroll(){

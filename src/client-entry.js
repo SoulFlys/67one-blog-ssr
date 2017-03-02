@@ -5,11 +5,10 @@ import { app, store } from './app'
 // the state is determined during SSR and inlined in the page markup.
 store.replaceState(window.__INITIAL_STATE__)
 
-console.log('client-entry');
 // actually mount to DOM
 app.$mount('#app')
 
 // service worker
-if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/service-worker.js')
-}
+// if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
+//   navigator.serviceWorker.register('/service-worker.js')
+// }

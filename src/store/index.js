@@ -23,8 +23,6 @@ marked.setOptions({
 
 const store = new Vuex.Store({
     state: {
-        isLoadingAsyncComponent: false,
-        progress: 0,
         category: [],
         basis: {},
         links: [],
@@ -34,27 +32,10 @@ const store = new Vuex.Store({
 
         articleList: [],    //首页分页文章列表
         currentPage: 1,     //首页当前页
-        pageSize: 2,
+        pageSize: 5,
         loadingMore: true   //首页加载更多
     },
     actions: {
-        SET_PROGRESS: ({ commit, state }, progress) => {
-          commit('SET_PROGRESS_VALUE', progress)
-        },
-
-        START_LOADING: ({ commit, state, dispatch }) => {
-          dispatch('SET_PROGRESS', 30)
-          let interval = setInterval(() => {
-            let progress = state.progress
-            if (progress < 90) {
-              let target = progress + 10
-              dispatch('SET_PROGRESS', target)
-            }
-          }, 400)
-          return interval
-        },
-
-
         async FETCH_GLOBAL({commit, state}) {
             let pagination = {currentPage:state.currentPage,pageSize:state.pageSize};
             let params = Object.assign(pagination,state.route.params)
@@ -77,36 +58,10 @@ const store = new Vuex.Store({
             commit('SET_LINKS', data)
         },
         //获取某一篇文章
-        FETCH_ARTICLE({ commit, state },{to,callback}) {
-            console.log(1,to);
-            console.log(2,callback);
-            return api.fetch('/blog/article/findById',to.params).then((result)=>{
-                let data = result.data;
-                console.log('data',data)
-                commit('SET_ARTICLE', data)
-                console.log('Fetch',callback)
-                callback && callback()
-            });
-            // let { data:data,status } = await api.fetch('/blog/article/findById');
-            // console.log('data',data)
+        async FETCH_ARTICLE({ commit, state }) {
+            let { data:data,status } = await api.fetch('/blog/article/findById',state.route.params);
+            commit('SET_ARTICLE', data)
         },
-        // FETCH_TAGS: ({ commit, state, dispatch }, { model, query, callback }) => {
-        //   return api.fetch(model, query).then(result => {
-        //     let tags = result.reduce((prev, curr) => {
-        //       curr.tags.forEach(tag => {
-        //         if (typeof prev[tag] === 'undefined') {
-        //           prev[tag] = 1
-        //         } else {
-        //           prev[tag] = prev[tag] + 1
-        //         }
-        //       })
-        //       return prev
-        //     }, {})
-        //     commit('SET_TAGS', { tags })
-        //     callback && callback()
-        //   })
-        // },
-        //获取文章列表
         async FETCH_ARTICLELIST({commit, state}) {
             let { data:data } = await api.fetch('/blog/article',{currentPage:state.currentPage,pageSize:state.pageSize})
             commit('SET_ARTICLELIST', data)
@@ -118,9 +73,6 @@ const store = new Vuex.Store({
         },
     },
     mutations: {
-        SET_PROGRESS_VALUE: (state, progress) => {
-          Vue.set(state, 'progress', progress)
-        },
 
         SET_GLOBAL(state, data){
             state.category = data.category;
@@ -132,10 +84,10 @@ const store = new Vuex.Store({
                 state.loadingMore = false;
             }
 
-            // if(!_.isEmpty(data.article)){
-            //     data.article.content = marked(data.article.content)
-            //     state.article = data.article;
-            // }
+            if(!_.isEmpty(data.article)){
+                data.article.content = marked(data.article.content)
+                state.article = data.article;
+            }
         },
 
         //分类信息
@@ -182,7 +134,7 @@ const store = new Vuex.Store({
         getArticle: state => {
             // state.article.createAt = state.article.meta.createAt
             // state.article.updateAt = state.article.meta.updateAt
-            console.log(state.article)
+            // console.log(state.article)
             return state.article
         },
         getArticleList: state => state.articleList,

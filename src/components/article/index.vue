@@ -19,7 +19,7 @@
                 <i class="iconfont">&#xe609;</i>
                 <span>{{article.readings}}</span>
                 <i class="iconfont">&#xe711;</i>
-                <!-- <span>{{article.createAt | formatDate('yyyy-MM-dd')}}</span> -->
+                <span>{{article.meta.createAt | formatDate('yyyy-MM-dd')}}</span>
             </div>
         </div>
         <div class="author">
@@ -37,22 +37,13 @@
                 </p>
             </div>
         </div>
-        <div class="comment">
+        <!-- <div class="comment">
             <div class="comment-btn" @click="abc" v-show="comment">
                 <i class="iconfont">&#xe624;</i>查看评论
             </div>
         </div>
-        <div id="comment-box" v-show="!comment"></div>
+        <div id="comment-box" v-show="!comment"></div> -->
 
-
-        <div id="SOHUCS" ></div>
-        <!-- <script charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/changyan.js" ></script>
-        <script type="text/javascript">
-        window.changyan.api.config({
-        appid: 'cyrktPNjT',
-        conf: 'prod_a00cd669fe4f7e0eb5fba559ea485c82'
-        });
-        </script> -->
         <router-link to="/article/58b3f23729b2ce2f90ab6d23">123456789</router-link>
     </div>
 
@@ -62,53 +53,13 @@
 import { mapGetters } from 'vuex'
 import * as api from '../../store/api'
 import { host } from '../../store/config'
-// import '../../lib/changyan'
 
-const fetchGlobal = store => store.dispatch('FETCH_GLOBAL')
-// const fetchArticle = async store => {
-//     if(!store.state.category.length) await store.dispatch('FETCH_GLOBAL')
-//     await store.dispatch('FETCH_ARTICLE')
-// }
-
-const preFetch = (store, to, callback) => {
-    console.log('index.vue',callback)
-    // store.dispatch('FETCH_GLOBAL')
-    // console.log(to,store.state.article._id)
-    console.log(process.env.NODE_ENV)
-    // if(to.params.id != store.state.article._id){
-    //     return store.dispatch('FETCH_ARTICLE',{to,callback})
-    // }else{
-        // callback && callback()
-    // }
-    if(process.env.NODE_ENV == 'development'){
-        return store.dispatch('FETCH_ARTICLE',{to,callback})
-    }else{
-        if(to.params.id != store.state.article._id){
-            return store.dispatch('FETCH_ARTICLE',{to,callback})
-        }else{
-            callback && callback()
-        }
-    }
+const preFetch = async store => {
+    if(!store.state.category.length) await store.dispatch('FETCH_GLOBAL')
+    await store.dispatch('FETCH_ARTICLE')
 }
-// function preFetch (store, { path: pathName, params, query }, callback) {
-//   return store.dispatch('FETCH_TAGS', {
-//     model: 'post',
-//     query: {
-//       conditions: {
-//         type: 'post',
-//         isPublic: true
-//       },
-//       select: {
-//         _id: 0,
-//         tags: 1
-//       }
-//     },
-//     callback
-//   })
-// }
 
 export default {
-    props:['article'],
     data() {
         return {
             rootUrl:host,
@@ -121,28 +72,15 @@ export default {
             basis: 'getBasis'
         })
     },
-    // preFetch: preFetch,
-    // beforeMount() {
-    //     // if(this.$route.params.id !== this.$store.state.article._id){
-    //         // preFetch(this.$store)
-    //         console.log(123)
-    //     // }
-    // },
-    // watch: {
-    //     '$route'() {
-    //         // fetchArticle(this.$store)
-    //         // this.comment = true
-    //     }
-    // },
-    // mounted() {
-    //     // console.log(this.$store.state.article._id)
-    //     // api.readings(this.$route.params);
-    // },
-    // methods: {
-    //     abc(){
-    //
-    //     }
-    // }
+    preFetch: preFetch,
+    beforeMount() {
+        preFetch(this.$store)
+    },
+    watch: {
+        '$route'() {
+            preFetch(this.$store)
+        }
+    }
 }
 </script>
 
