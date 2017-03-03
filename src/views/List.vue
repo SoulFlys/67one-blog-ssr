@@ -1,163 +1,166 @@
-<template>
-<div>
-    <ul>
-        <li v-for="item in list">{{item.name}}</li>
-    </ul>
-</div>
+<template lang="html">
+    <div class="list">
+        <div class="title">
+            <p>标题</p>
+            <span>title</span>
+        </div>
+        <div class="con">
+            <div class="con-li">
+                <a href="#">
+                    <div class="con-li-img">
+                        <img src="../assets/imgs/1.png" alt="" />
+                    </div>
+                    <div class="con-li-text">
+                        <h3>文章标题</h3>
+                        <p>
+                            <span><i class="iconfont">&#xe711;</i>2016-08-31</span>
+                            <span><i class="iconfont">&#xe609;</i>1378</span>
+                            <span><i class="iconfont">&#xe624;</i>3</span>
+                        </p>
+                    </div>
+                </a>
+            </div>
+            <div class="con-li">
+                <a href="#">
+                    <div class="con-li-img">
+                        <img src="../assets/imgs/2.jpg" alt="" />
+                    </div>
+                    <div class="con-li-text">
+                        <h3>文章标题</h3>
+                        <p>
+                            <span><i class="iconfont">&#xe711;</i>2016-08-31</span>
+                            <span><i class="iconfont">&#xe609;</i>1378</span>
+                            <span><i class="iconfont">&#xe624;</i>3</span>
+                        </p>
+                    </div>
+                </a>
+            </div>
+            <div class="con-li">
+                <a href="#">
+                    <div class="con-li-img">
+                        <img src="../assets/imgs/1.png" alt="" />
+                    </div>
+                    <div class="con-li-text">
+                        <h3>文章标题</h3>
+                        <p>
+                            <span><i class="iconfont">&#xe711;</i>2016-08-31</span>
+                            <span><i class="iconfont">&#xe609;</i>1378</span>
+                            <span><i class="iconfont">&#xe624;</i>3</span>
+                        </p>
+                    </div>
+                </a>
+            </div>
+            <div class="con-li">
+                <a href="#">
+                    <div class="con-li-img">
+                        <img src="../assets/imgs/2.jpg" alt="" />
+                    </div>
+                    <div class="con-li-text">
+                        <h3>文章标题</h3>
+                        <p>
+                            <span><i class="iconfont">&#xe711;</i>2016-08-31</span>
+                            <span><i class="iconfont">&#xe609;</i>1378</span>
+                            <span><i class="iconfont">&#xe624;</i>3</span>
+                        </p>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="page">
+            <a @click.prevent="loadingMore">加载更多</a>
+        </div>
+    </div>
 </template>
 
 <script>
-import {mapActions,mapState} from 'vuex'
-import store from '../store'
-
-const fetchLatest = store => store.dispatch('FETCH_LATEST')
-// const fetchLatest = (store) => {
-//     console.log(store.state.route)
-// }
-
 export default {
-    data() {
-        return {}
-    },
-    computed: {
-        ...mapState({
-            list: state => state.list
-        })
-    },
-    preFetch: fetchLatest,
-    beforeMount() {
-        if (!this.list.length) {
-            fetchLatest(this.$store)
-        }
-    },
+  data () {
+    return {}
+  },
+  computed: {},
+  mounted () {},
+  methods: {
+      loadingMore(){
+
+      }
+  },
+  components: {}
 }
 </script>
 
+<style lang="stylus" scoped>
+@import '../assets/stylus/constant'
+@import '../assets/stylus/function'
+.list
+    width: $mainWidth
+    margin:80px auto 50px
+    .title
+        position: relative
+        text-align: center
+        margin-bottom: 70px
+        p
+            dib()
+            font-size: 25px
+            font-weight: 400
+            padding-right: 15px
+            border-right: 1px dashed $list-titleBorRight
+            color: $list-title
+        span
+            dib()
+            padding-left: 10px
+            color: $list-litTitle
+    .con
+        width:100%
+        clearfix()
+        .con-li
+            float: left
+            width: 32.5%
+            margin: 0 3px 8px
+            height: 175px
+            position: relative
+            border: 1px solid $list-liBor
+            overflow: hidden
+            box-sizing()
+            &:hover
+                .con-li-text
+                    top:0
+            .con-li-img
+                width:100%
+                height: 175px
+                img
+                    width:100%
+                    height: 175px
+            .con-li-text
+                absolute: left 0 top -100%
+                background-color: $list-liBg
+                color: $list-liColor
+                height: 100%
+                width: 100%
+                opacity: 0.9
+                transition: 0.5s
+                h3
+                    font-size: 16px
+                    font-weight: 400
+                    margin: 0 0 10px 0
+                    padding: 0 20px
+                    padding-top: 40px
+                    color:$list-liH3
+                p
+                    span
+                        i
+                            font-size: 13px
+                            dib()
+                            margin-right: 2px
+                        font-size: 13px
+                        color: $list-liP
+                        &:nth-child(1)
+                            float: left
+                            padding-left: 20px
+                        &:nth-child(2)
+                            float: right
+                            margin-right: 20px
+                        &:nth-child(3)
+                            float: right
+                            margin-right: 20px
 
-<style lang="stylus">
-vendors = webkit moz o ms official
-support-for-ie ?= true
-
--pos(type, args)
-    i = 0
-    position: unquote(type)
-    {args[i]}: args[i + 1] is a 'unit' ? args[i += 1] : 0
-    {args[i += 1]}: args[i + 1] is a 'unit' ? args[i += 1] : 0
-
-absolute()
-    -pos('absolute', arguments)
-
-fixed()
-    -pos('fixed', arguments)
-
-relative()
-    -pos('relative', arguments)
-
-bower(name, val)
-    for vendor in vendors
-        if vendor == official
-            {name}: val
-        else
-            -{vendor}-{name}: val
-
-border-radius()
-    bower(border-radius, arguments)
-
-transition()
-    bower(transition, arguments)
-
-transform()
-    bower(transform, arguments)
-
-box-shadow()
-    bower(box-shadow, arguments)
-
-user-select()
-    bower(user-select, arguments)
-
-background-size()
-    bower(background-size, arguments)
-
-box-sizing()
-    bower(box-sizing, border-box)
-
-support-for-ie ?= true
-
-opacity(n)
-    opacity n
-    if support-for-ie
-        filter unquote('progid:DXImageTransform.Microsoft.Alpha(Opacity=' + round(n * 100) + ')')
-
-imgVHM()
-    text-align: center
-    font-size: 0
-    &:after
-        display:inline-block
-        width:0
-        height:100%
-        content:"center"
-        vertical-align:middle
-    img
-        vertical-align: middle
-
-clink(normal, hover)
-    &:link
-    &:active
-    &:visited
-       color: normal
-    &:hover
-       color: hover
-
-clearfix()
-    *zoom:1
-    &:after
-        content: "\0020"
-        display: block
-        clear: both
-
-linHeight()
-    height: arguments
-    line-height: arguments
-
-dib()
-    display: inline-block
-    *display: inline
-    *zoom: 1
-
-db()
-    display: block
-
-dn()
-    display: none
-
-
-body
-    background: #fff
-    transition: all 3s
-    opacity: 0.8
-
-$loadMore-title = #ADADAD
-$loadMore-titleHover = #A0DAD0
-$loadMore-border = #D6D6D6
-
-ul
-    li
-        color:red
-        font-size: 20px
-        border: 1px solid $loadMore-border
-        border-radius: 50px
-        color: $loadMore-title
-
-::-webkit-scrollbar
-    width: 8px
-    height: 8px
-    background-color: #B9B9B9
-
-::-webkit-scrollbar-track
-    border-radius: 10px
-    background-color: #B9B9B9
-
-::-webkit-scrollbar-thumb
-    border-radius: 10px
-    background-color: #2B394E
 </style>

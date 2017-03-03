@@ -18,18 +18,13 @@
 </template>
 
 <script>
+import store from '../store'
 import { mapGetters } from 'vuex'
-import store from '../../store'
-import _ from "lodash"
 
-const fetchLinks = store => store.dispatch('FETCH_LINKS')
-const fetchGlobal = store => store.dispatch('FETCH_GLOBAL')
+const fetchLinks = async store => await store.dispatch('FETCH_LINKS')
 
 export default {
     name:'links',
-    data() {
-        return {}
-    },
     computed: {
         ...mapGetters({
             links: 'getLinks'
@@ -37,17 +32,14 @@ export default {
     },
     preFetch: fetchGlobal,
     beforeMount() {
-        if(!this.$store.state.links.length){
-            fetchLinks(this.$store)
-        }
+        fetchLinks(this.$store)
     },
-    mounted(){}
 }
 </script>
 
 <style lang="stylus" scoped>
-@import '../../assets/stylus/constant'
-@import '../../assets/stylus/function'
+@import '../assets/stylus/constant'
+@import '../assets/stylus/function'
 .links
     width: $mainWidth
     margin:0 auto

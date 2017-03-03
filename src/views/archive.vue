@@ -22,94 +22,33 @@
                     </template>
                 </div>
             </div>
-            <!-- <div class="list-time">
-                <span class="clock"><i class="iconfont">&#xe711;</i></span>
-                <h1 class="list-title">2016-10</h1>
-                <div class="artive-list">
-                    <span class="circle"></span>
-                    <div class="arrow"></div>
-                    <div class="active-con">
-                        <a href="#">
-                            <span class="time">
-                                <i class="iconfont">&#xe711;</i>8-31
-                            </span>
-                            这里是文章的标题<em>(2)</em>
-                        </a>
-                    </div>
-                    <span class="circle"></span>
-                    <div class="arrow"></div>
-                    <div class="active-con">
-                        <a href="#">
-                            <span class="time">
-                                <i class="iconfont">&#xe711;</i>8-31
-                            </span>
-                            这里是文章的标题<em>(3)</em>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="list-time">
-                <span class="clock"><i class="iconfont">&#xe711;</i></span>
-                <h1 class="list-title">2016-9</h1>
-                <div class="artive-list">
-                    <span class="circle"></span>
-                    <div class="arrow"></div>
-                    <div class="active-con">
-                        <a href="#">
-                            <span class="time">
-                                <i class="iconfont">&#xe711;</i>8-31
-                            </span>
-                            这里是文章的标题<em>(3)</em>
-                        </a>
-                    </div>
-                    <span class="circle"></span>
-                    <div class="arrow"></div>
-                    <div class="active-con">
-                        <a href="#">
-                            <span class="time">
-                                <i class="iconfont">&#xe711;</i>8-31
-                            </span>
-                            这里是文章的标题<em>(3)</em>
-                        </a>
-                    </div>
-                </div>
-            </div> -->
         </div>
     </div>
 </template>
 
 <script>
 import {mapGetters} from 'vuex'
-import _ from 'lodash'
-const fetchGlobal = store => store.dispatch('FETCH_GLOBAL')
-const fetchAllArticleList = async store => {
-    if(!store.state.category.length) await store.dispatch('FETCH_GLOBAL')
-    await store.dispatch('FETCH_ALLARTICLELIST')
+
+const fetchArchive = async store => {
+    await store.dispatch('FETCH_ALLARTICLE')
 }
 
-
-
 export default {
-  data () {
-      return {}
-  },
-  computed: {
+    name:'archive',
+    computed: {
       ...mapGetters({
-          allArticleList: 'getAllArticleList'
+          allArticle: 'getAllArticle'
       })
-  },
-  preFetch: fetchAllArticleList,
-  beforeMount() {
-    //   console.log('allArticleList.length',!this.$store.state.allArticleList.length)
-      if(!this.$store.state.allArticleList.length){
-          fetchAllArticleList(this.$store)
-      }
-  },
-  mounted () {
+    },
+    preFetch: fetchArchive,
+    beforeMount() {
+        fetchArchive(this.$store)
+    },
+    mounted () {
     //   console.log(this.$store.state.allArticleList.length)
     //   console.log(window.__INITIAL_STATE__);
-  },
-  methods: {
+    },
+    methods: {
       toggle(key){
         // console.log(key);
         //  this.$store.state.allArticleList[key].hidden = this.$store.state.allArticleList[key].hidden || false;
@@ -118,14 +57,13 @@ export default {
         //      item.hidden = !item.hidden;
         //  })
       }
-  },
-  components: {}
+    }
 }
 </script>
 
 <style lang="stylus" scoped>
-@import '../../assets/stylus/constant'
-@import '../../assets/stylus/function'
+@import '../assets/stylus/constant'
+@import '../assets/stylus/function'
 .archive
     width: $mainWidth
     margin:0 auto

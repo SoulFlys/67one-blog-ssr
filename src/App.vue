@@ -1,11 +1,11 @@
 <template>
 <div id="app">
     <!-- <w-progress :progress="progress"></w-progress> -->
-    <w-header></w-header>
+    <w-header :basis="basis" :category="category"></w-header>
     <transition name="fade" mode="out-in">
         <router-view class="view"></router-view>
     </transition>
-    <w-footer></w-footer>
+    <w-footer :basis="basis"></w-footer>
     <aside>
         <div class="goTop" @click="goTop" :style="{display:isShowGoTop ? 'block' : 'none'}">
             <i class="iconfont">&#xe630;</i>
@@ -19,21 +19,22 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import wProgress from 'components/layout/progress';
-import wHeader from 'components/layout/header';
-import wFooter from 'components/layout/footer';
+// import wProgress from 'components/layout/progress';
+import wHeader from 'components/header';
+import wFooter from 'components/footer';
 
 export default {
     name: 'app',
     components: {
-        wProgress,
+        // wProgress,
         wHeader,
         wFooter
     },
     computed: {
-        ...mapGetters([
-          'progress'
-        ])
+        ...mapGetters({
+            basis:'getBasis',
+            category:'getCategory'
+        })
     },
     data(){
         return {

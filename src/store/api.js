@@ -13,7 +13,7 @@ export const fetch = (model, query) => {
         return Promise.resolve(api.cache.get(target))
     }
 
-    return axios.post(target, query).then((response) => {
+    return axios.get(target, query).then((response) => {
         if (shouldCache) api.cache.set(target, response)
         return response
     })

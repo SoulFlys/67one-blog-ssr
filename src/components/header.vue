@@ -15,20 +15,6 @@
                     <router-link :to="items.router" v-if="items.type == 1">{{items.name}}</router-link>
                     <router-link :to="'/article/'+items.router" v-else>{{items.name}}</router-link>
                 </li>
-                <!-- <li><router-link to="/">首页</router-link></li>
-                <li><router-link to="/archive">归档</router-link></li>
-                <li><router-link to="/links">邻居</router-link></li>
-                <li><router-link to="/list">列表</router-link></li>
-                <li><router-link to="/about">关于我</router-link></li>
-                <li><router-link to="/no">未完成事项</router-link></li>
-                <li>
-                    <a href="#">一级分类</a>
-                    <div class="nav-menu">
-                        <p><a href="#">二级分类</a></p>
-                        <p><a href="#">二级分类</a></p>
-                        <p><a href="#">二级分类</a></p>
-                    </div>
-                </li> -->
             </ul>
         </nav>
     </div>
@@ -36,34 +22,22 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import { host } from '../../store/config'
+import { host } from '../store/config'
 
 export default {
     name: 'header',
+    props: ['basis','category'],
     data() {
         return {
             rootUrl:host
         }
-    },
-    computed: {
-        ...mapGetters({
-            category: 'getCategory',
-            basis: 'getBasis'
-        })
-    },
-    mounted() {
-        // console.log(this.$store.state.basis.logo)
-        // console.log(this.$store.state.category)
-    },
-    methods: {},
-    components: {}
+    }
 }
 </script>
 
 <style lang="stylus" scoped>
-@import '../../assets/stylus/constant';
-@import '../../assets/stylus/function';
+@import '../assets/stylus/constant';
+@import '../assets/stylus/function';
 header
     width: 100%
     height: 100px

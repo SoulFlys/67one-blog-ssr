@@ -43,23 +43,22 @@
             </div>
         </div>
         <div id="comment-box" v-show="!comment"></div> -->
-
-        <router-link to="/article/58b3f23729b2ce2f90ab6d23">123456789</router-link>
     </div>
 
 </template>
 
 <script>
+import * as api from '../store/api'
+import { host } from '../store/config'
 import { mapGetters } from 'vuex'
-import * as api from '../../store/api'
-import { host } from '../../store/config'
 
-const preFetch = async store => {
-    if(!store.state.category.length) await store.dispatch('FETCH_GLOBAL')
+const fetchArticle = async store => {
+    await store.dispatch('FETCH_BASIS')
     await store.dispatch('FETCH_ARTICLE')
 }
 
 export default {
+    name: 'article',
     data() {
         return {
             rootUrl:host,
@@ -72,23 +71,23 @@ export default {
             basis: 'getBasis'
         })
     },
-    preFetch: preFetch,
+    preFetch: fetchArticle,
     beforeMount() {
-        preFetch(this.$store)
+        fetchArticle(this.$store)
     },
     watch: {
         '$route'() {
-            preFetch(this.$store)
+            fetchArticle(this.$store)
         }
     }
 }
 </script>
 
 <style lang="stylus" scoped>
-@import '../../assets/stylus/constant'
-@import '../../assets/stylus/function'
-@import '../../assets/css/github-markdown.css'
-@import '../../assets/css/atom-one-light.css'
+@import '../assets/stylus/constant'
+@import '../assets/stylus/function'
+@import '../assets/css/github-markdown.css'
+@import '../assets/css/atom-one-light.css'
 .con
     max-width: $mainWidth
     margin: 80px auto 50px
@@ -203,7 +202,7 @@ export default {
 
     #comment-box
         #ds-waiting
-            background: url('../../assets/imgs/postload.gif') center no-repeat
+            background: url('../assets/imgs/postload.gif') center no-repeat
             color: #555
             border: none
 

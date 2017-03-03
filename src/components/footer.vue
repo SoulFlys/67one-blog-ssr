@@ -9,23 +9,12 @@
 </template>
 
 <script>
-import * as api from '../../store/api'
+import * as api from '../store/api'
 import { mapGetters } from 'vuex'
-
-
 
 export default {
     name: 'footer',
-    data() {
-        return {
-
-        }
-    },
-    computed: {
-        ...mapGetters({
-            basis: 'getBasis'
-        })
-    },
+    props: ['basis'],
     mounted(){
         api.hits();
     }
@@ -33,8 +22,8 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-@import '../../assets/stylus/constant';
-@import '../../assets/stylus/function';
+@import '../assets/stylus/constant';
+@import '../assets/stylus/function';
 footer
     width:100%
     background: $footer-bg

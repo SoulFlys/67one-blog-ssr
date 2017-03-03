@@ -13,20 +13,20 @@
                 <div class="banner-list">
                     <ul>
                         <li class="weixin" v-if="basis.weixin">
-                            <a href="#"><img src="../../assets/imgs/wechat.png" alt="" /></a>
+                            <a href="#"><img src="../assets/imgs/wechat.png" alt="" /></a>
                             <div class="weixin-code">
                                 <img :src="rootUrl+basis.weixin" alt="" />
                             </div>
                         </li>
                         <li v-if="basis.weibo">
-                            <a :href="basis.weibo" target="_blank"><img src="../../assets/imgs/sina.png" alt="" /></a>
+                            <a :href="basis.weibo" target="_blank"><img src="../assets/imgs/sina.png" alt="" /></a>
                         </li>
                         <li class="qq" v-if="basis.qq">
-                            <a href="#"><img src="../../assets/imgs/qq.png" alt="" /></a>
+                            <a href="#"><img src="../assets/imgs/qq.png" alt="" /></a>
                             <div class="qq-code">{{basis.qq}}</div>
                         </li>
                         <li v-if="basis.github">
-                            <a :href="basis.github" target="_blank"><img src="../../assets/imgs/github.png" alt="" /></a>
+                            <a :href="basis.github" target="_blank"><img src="../assets/imgs/github.png" alt="" /></a>
                         </li>
                     </ul>
                 </div>
@@ -38,33 +38,22 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import store from '../../store'
-import { host } from '../../store/config'
+import { host } from '../store/config'
 
 export default {
     name: 'banner',
+    props: ['basis'],
     data() {
         return {
             rootUrl: host
         }
-    },
-    computed: {
-        ...mapGetters({
-            basis: 'getBasis'
-        })
-    },
-    mounted() {
-
-    },
-    methods: {},
-    components: {}
+    }
 }
 </script>
 
 <style lang="stylus" scoped>
-@import '../../assets/stylus/constant';
-@import '../../assets/stylus/function';
+@import '../assets/stylus/constant';
+@import '../assets/stylus/function';
 .banner
     width: 100%
     height: 550px

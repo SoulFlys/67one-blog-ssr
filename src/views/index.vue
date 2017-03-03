@@ -1,6 +1,6 @@
 <template>
     <div class="index">
-        <w-banner></w-banner>
+        <w-banner :basis="basis"></w-banner>
         <div class="content">
             <div class="notice" v-if="basis.tip">
                 <p><i class="iconfont">&#xe65a;</i>{{basis.tip}}</p>
@@ -79,16 +79,21 @@
 </template>
 
 <script>
-import wBanner from './layout/banner';
-import {mapGetters} from 'vuex'
-import {host} from '../store/config'
+import wBanner from 'components/banner'
+import { mapGetters } from 'vuex'
+import { host } from '../store/config'
 
-const fetchGlobal = store => store.dispatch('FETCH_GLOBAL')
-const fetchBasis = store => store.dispatch('FETCH_BASIS')
-const fetchArticleList = store => store.dispatch('FETCH_ARTICLELIST')
+const fetchIndex = async store => {
+    await store.dispatch('FETCH_BASIS')
+    await store.dispatch('FETCH_CATEGORY')
+    await store.dispatch('FETCH_LIST')
+}
 
 export default {
     name: 'index',
+    components: {
+        wBanner
+    },
     data() {
         return {
             rootUrl: host,
@@ -98,18 +103,13 @@ export default {
     computed: {
         ...mapGetters({
             basis: 'getBasis',
-            articleList: 'getArticleList',
+            articleList: 'getList',
             loadingMore: 'getLoadingMore'
         })
     },
-    preFetch: fetchGlobal,
+    preFetch: fetchIndex,
     beforeMount() {
-        if(!Object.keys(this.$store.state.basis).length){
-            fetchBasis(this.$store)
-        }
-        if(!this.$store.state.articleList.length){
-            fetchArticleList(this.$store)
-        }
+        fetchIndex(this.$store)
     },
     methods: {
         clickloadingMore(event){
@@ -120,9 +120,6 @@ export default {
                 this.clickLoading = false;
             },1500)
         }
-    },
-    components: {
-        wBanner
     }
 }
 </script>

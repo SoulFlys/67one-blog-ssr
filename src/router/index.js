@@ -10,36 +10,29 @@ const router = new VueRouter({
         {
             path: "/",
             name: "/",
-            component: require('../components/index.vue')
+            component: require('../views/index.vue')
         }, {
             path: "/archive",
             name: "archive",
-            component: require('../components/archive/index.vue')
+            component: require('../views/archive.vue')
         }, {
             path: "/links",
             name: "links",
-            component: require('../components/links/index.vue')
+            component: require('../views/links.vue')
         }, {
             path: "/list",
             name: "list",
-            component: require('../components/article/list.vue')
+            component: require('../views/list.vue')
         }, {
             path: "/article/:id",
             name: "article",
-            component: require('../components/article/index.vue')
-        }, {
-            path: "/about",
-            name: "about",
-            component: require('../components/about/index.vue')
-        }, {
-            path: "/no",
-            name: "no",
-            component: require('../components/no.vue')
+            component: require('../views/article.vue')
         }, {
             path: "*",
-            component: require('../components/layout/404.vue')
+            component: require('../views/404.vue')
         }
     ]
 })
+
 
 export default router;
