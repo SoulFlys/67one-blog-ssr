@@ -1,7 +1,6 @@
 import { app, router, store } from './app'
 
 const isDev = process.env.NODE_ENV !== 'production'
-
 // This exported function will be called by `bundleRenderer`.
 // This is where we perform data-prefetching to determine the
 // state of our application before actually rendering it.

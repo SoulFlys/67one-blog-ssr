@@ -43,6 +43,9 @@ import { host } from '../store/config'
 export default {
     name: 'banner',
     props: ['basis'],
+    serverCacheKey: () => {
+        return `banner`
+    },
     data() {
         return {
             rootUrl: host

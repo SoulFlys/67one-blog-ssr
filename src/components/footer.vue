@@ -15,6 +15,9 @@ import { mapGetters } from 'vuex'
 export default {
     name: 'footer',
     props: ['basis'],
+    serverCacheKey: () => {
+        return `footer`
+    },
     mounted(){
         api.hits();
     }

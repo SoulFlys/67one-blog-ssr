@@ -81,12 +81,12 @@
 <script>
 import wBanner from 'components/banner'
 import { mapGetters } from 'vuex'
-import { host } from '../store/config'
+import * as Conf from '../store/config'
 
 const fetchIndex = async store => {
-    await store.dispatch('FETCH_BASIS')
-    await store.dispatch('FETCH_CATEGORY')
-    await store.dispatch('FETCH_LIST')
+    Object.keys(store.state.basis).length || await store.dispatch('FETCH_BASIS')
+    store.state.category.length || await store.dispatch('FETCH_CATEGORY')
+    store.state.list.length || await store.dispatch('FETCH_LIST')
 }
 
 export default {
@@ -96,7 +96,7 @@ export default {
     },
     data() {
         return {
-            rootUrl: host,
+            rootUrl: Conf.host,
             clickLoading:false
         }
     },

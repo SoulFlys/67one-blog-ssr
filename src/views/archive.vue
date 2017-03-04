@@ -4,9 +4,9 @@
             <h1>文章归档</h1>
         </div>
         <div class="list">
-            <div class="list-time" v-for="(items,key) in allArticleList">
+            <div class="list-time" v-for="(items,key) in allArticle">
                 <span class="clock"><i class="iconfont">&#xe711;</i></span>
-                <h1 class="list-title" @click="toggle(key)">{{key}}  ({{items.length}})</h1>
+                <h1 class="list-title">{{key}}  ({{items.length}})</h1>
                 <div class="artive-list">
                     <template v-for="item in items">
                         <span class="circle"></span>
@@ -28,9 +28,12 @@
 
 <script>
 import {mapGetters} from 'vuex'
+import * as Conf from '../store/config'
 
 const fetchArchive = async store => {
-    await store.dispatch('FETCH_ALLARTICLE')
+    Object.keys(store.state.basis).length || await store.dispatch('FETCH_BASIS')
+    store.state.category.length || await store.dispatch('FETCH_CATEGORY')
+    store.state.allArticle.length || await store.dispatch('FETCH_ALLARTICLE')
 }
 
 export default {
@@ -43,20 +46,6 @@ export default {
     preFetch: fetchArchive,
     beforeMount() {
         fetchArchive(this.$store)
-    },
-    mounted () {
-    //   console.log(this.$store.state.allArticleList.length)
-    //   console.log(window.__INITIAL_STATE__);
-    },
-    methods: {
-      toggle(key){
-        // console.log(key);
-        //  this.$store.state.allArticleList[key].hidden = this.$store.state.allArticleList[key].hidden || false;
-        //  this.$store.state.allArticleList[key].hidden = !this.$store.state.allArticleList[key].hidden;
-        //  _.each(this.allArticleList[key],(item) => {
-        //      item.hidden = !item.hidden;
-        //  })
-      }
     }
 }
 </script>

@@ -26,6 +26,7 @@ export default {
   },
   watch: {
     progress (val, old) {
+        console.log(val,old)
       if (old !== val) {
         this.width = val
         this.$nextTick(() => {

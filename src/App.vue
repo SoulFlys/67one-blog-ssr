@@ -11,15 +11,15 @@
             <i class="iconfont">&#xe630;</i>
         </div>
     </aside>
-    <div class="preloader">
+    <!-- <div class="preloader">
         <div class="preloader-inner"></div>
-    </div>
+    </div> -->
 </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-// import wProgress from 'components/layout/progress';
+// import wProgress from 'components/progress';
 import wHeader from 'components/header';
 import wFooter from 'components/footer';
 
@@ -33,7 +33,8 @@ export default {
     computed: {
         ...mapGetters({
             basis:'getBasis',
-            category:'getCategory'
+            category:'getCategory',
+            // progress:'getProgress'
         })
     },
     data(){
@@ -86,13 +87,13 @@ export default {
 @import './assets/font/font.css'
 @import "./assets/stylus/init"
 .fade-enter-active, .fade-leave-active
-    transition: all 0.5s ease
+    transition: all 1s ease
 .fade-enter
     opacity: 1
-    transform: translate3d(-100px, 0, 0)
+    transform: translate3d(-200px, 0, 0)
 .fade-leave-active
     opacity: 0
-    transform: translate3d(100px, 0, 0)
+    transform: translate3d(200px, 0, 0)
 .preloader
     position: fixed
     top: 0

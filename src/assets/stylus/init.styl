@@ -149,3 +149,24 @@ input:-webkit-autofill
     }
 }
 }
+
+
+
+.heart
+    width: 10px
+    height: 10px
+    position: fixed
+    z-index:110
+    background: #f00
+    transform: rotate(45deg)
+    &:after,&:before
+        content: ''
+        width: inherit
+        height: inherit
+        background: inherit
+        border-radius: 50%
+        position: absolute
+    &:after
+        top: -5px
+    &:before
+        left: -5px

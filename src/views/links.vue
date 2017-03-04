@@ -20,8 +20,13 @@
 <script>
 import store from '../store'
 import { mapGetters } from 'vuex'
+import * as Conf from '../store/config'
 
-const fetchLinks = async store => await store.dispatch('FETCH_LINKS')
+const fetchLinks = async store => {
+    Object.keys(store.state.basis).length || await store.dispatch('FETCH_BASIS')
+    store.state.category.length || await store.dispatch('FETCH_CATEGORY')
+    store.state.links.length || await store.dispatch('FETCH_LINKS')
+}
 
 export default {
     name:'links',
@@ -30,10 +35,10 @@ export default {
             links: 'getLinks'
         })
     },
-    preFetch: fetchGlobal,
+    preFetch: fetchLinks,
     beforeMount() {
         fetchLinks(this.$store)
-    },
+    }
 }
 </script>
 

@@ -46,12 +46,13 @@ function createRenderer(bundle) {
 }
 
 function parseIndex(template) {
-    const contentMarker = '<!-- APP -->'
-    const i = template.indexOf(contentMarker)
-    return {
-        head: template.slice(0, i),
-        tail: template.slice(i + contentMarker.length)
-    }
+    return template.split('<!-- APP -->')
+    // const contentMarker = '<!-- APP -->'
+    // const i = template.indexOf(contentMarker)
+    // return {
+    //     head: template.slice(0, i),
+    //     tail: template.slice(i + contentMarker.length)
+    // }
 }
 
 const serve = (path, cache) => express.static(resolve(path), {
@@ -81,7 +82,7 @@ app.get('*', (req, res) => {
 
 
     renderStream.once('data', () => {
-        res.write(indexHTML.head)
+        res.write(indexHTML[0])
     })
 
     renderStream.on('data', chunk => {
@@ -93,7 +94,7 @@ app.get('*', (req, res) => {
         if (context.initialState) {
             res.write(`<script>window.__INITIAL_STATE__=${serialize(context.initialState, { isJSON: true })}</script>`)
         }
-        res.end(indexHTML.tail)
+        res.end(indexHTML[1])
         console.log(`whole request: ${Date.now() - s}ms`)
     })
 

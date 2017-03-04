@@ -19,7 +19,7 @@
                 <i class="iconfont">&#xe609;</i>
                 <span>{{article.readings}}</span>
                 <i class="iconfont">&#xe711;</i>
-                <span>{{article.meta.createAt | formatDate('yyyy-MM-dd')}}</span>
+                <!-- <span>{{article.meta.createAt | formatDate('yyyy-MM-dd')}}</span> -->
             </div>
         </div>
         <div class="author">
@@ -37,32 +37,38 @@
                 </p>
             </div>
         </div>
-        <!-- <div class="comment">
-            <div class="comment-btn" @click="abc" v-show="comment">
+        <div class="comment">
+            <div class="comment-btn" @click="showComment" v-show="comment">
                 <i class="iconfont">&#xe624;</i>查看评论
             </div>
         </div>
-        <div id="comment-box" v-show="!comment"></div> -->
+        <div id="comment-box" v-show="!comment" v-html="eles"></div>
     </div>
 
 </template>
 
 <script>
 import * as api from '../store/api'
-import { host } from '../store/config'
+import * as Conf from '../store/config'
 import { mapGetters } from 'vuex'
 
 const fetchArticle = async store => {
-    await store.dispatch('FETCH_BASIS')
+    Object.keys(store.state.basis).length || await store.dispatch('FETCH_BASIS')
+    store.state.category.length || await store.dispatch('FETCH_CATEGORY')
     await store.dispatch('FETCH_ARTICLE')
+}
+
+const abc = async (store,id) => {
+    await store.dispatch('FETCH_COMMENT',id)
 }
 
 export default {
     name: 'article',
     data() {
         return {
-            rootUrl:host,
-            comment: true
+            rootUrl:Conf.host,
+            comment: true,
+            eles:''
         }
     },
     computed: {
@@ -73,11 +79,31 @@ export default {
     },
     preFetch: fetchArticle,
     beforeMount() {
-        fetchArticle(this.$store)
+        if(this.$store.state.article._id != this.$store.state.route.params.id){
+            fetchArticle(this.$store)
+        }
+    },
+    mounted(){
+        // abc(this.$store,this.article._id);
+        // mounted(){
+            api.readings({id:this.article._id});
+        // }
     },
     watch: {
         '$route'() {
+            console.log('$route')
             fetchArticle(this.$store)
+        }
+    },
+    methods:{
+        showComment(){
+            this.comment = false;
+            var el = document.createElement('div');//该div不需要设置class="ds-thread"
+            el.setAttribute('data-thread-key', this.article._id);//必选参数
+            el.setAttribute('data-url', location.href);//必选参数
+            el.setAttribute('data-author-key', '作者的本地用户ID');//可选参数
+            DUOSHUO.EmbedThread(el);
+            jQuery('#comment-box').append(el);
         }
     }
 }

@@ -22,6 +22,7 @@ marked.setOptions({
 
 const store = new Vuex.Store({
     state: {
+        progress: 0,
         category: [],
         basis: {},
         links: [],
@@ -29,15 +30,20 @@ const store = new Vuex.Store({
 
         article: {},        //文章内容
         allArticle: [],     //所有文章（不分页）
+        currentPage: 1,
+        pageSize: 2,
+        loadingMore: true,
         list: [],           //首页分页文章列表
     },
     actions: {
-        // async FETCH_GLOBAL({commit, state}) {
-        //     let pagination = {currentPage:state.currentPage,pageSize:state.pageSize};
-        //     let params = Object.assign(pagination,state.route.params)
-        //     let { data:data,status} = await api.fetch('/blog/global',params);
-        //     commit('SET_GLOBAL', data)
-        // },
+        // 根据唯一key获取多说评论  https://api.duoshuo.com/threads/listPosts.json?short_name=67one&thread_key=58a4174052a56004ce8e28d1
+        async FETCH_COMMENT({ commit, state }, thread_key ) {
+            const params = { short_name: '67one',thread_key:thread_key }
+            let res = await api.fetch1('https://api.duoshuo.com/threads/listPosts.json',params)
+            console.log(res)
+        },
+
+
         //获取分类信息
         async FETCH_CATEGORY({commit, state}) {
             let { data:data,status } = await api.fetch('/blog/category')
@@ -54,15 +60,13 @@ const store = new Vuex.Store({
             commit('SET_LINKS', data)
         },
         //获取某一篇文章
-        async FETCH_ARTICLE({ commit, state, dispatch }) {
+        async FETCH_ARTICLE({ commit, state }) {
             let { data:data } = await api.fetch('/blog/article/findById',state.route.params);
             commit('SET_ARTICLE', data)
-            callback && callback()
         },
         //获取文章列表
-        async FETCH_LIST({commit, state},pageParams) {
-            //{currentPage:state.currentPage,pageSize:state.pageSize}
-            let { data:data } = await api.fetch('/blog/article',pageParams)
+        async FETCH_LIST({commit, state}) {
+            let { data:data } = await api.fetch('/blog/article',{currentPage:state.currentPage,pageSize:state.pageSize})
             commit('SET_LIST', data)
         },
         //获取所有文章列表
@@ -72,22 +76,6 @@ const store = new Vuex.Store({
         },
     },
     mutations: {
-        // SET_GLOBAL(state, data){
-        //     state.category = data.category;
-        //     state.basis = data.basis;
-        //     state.links = data.links;
-        //     state.foucs = data.foucs;
-        //     state.articleList = data.articleList;
-        //     if(data.articleList.length >= data.count){
-        //         state.loadingMore = false;
-        //     }
-        //
-        //     if(!_.isEmpty(data.article)){
-        //         data.article.content = marked(data.article.content)
-        //         state.article = data.article;
-        //     }
-        // },
-
         //分类信息
         SET_CATEGORY(state, data){
             state.category = data
@@ -102,13 +90,13 @@ const store = new Vuex.Store({
             data.content = marked(data.content)
             state.article = data
         },
-        // SET_CURRENTPAGE(state, data){
-        //     state.currentPage++
-        // },
+        SET_CURRENTPAGE(state, data){
+            state.currentPage++
+        },
         SET_LIST(state, data){
-            // if(state.articleList.length + data.articleList.length >= data.count){
-            //     state.loadingMore = false;
-            // }
+            if(state.list.length + data.articleList.length >= data.count){
+                state.loadingMore = false;
+            }
 
             _.each(data.articleList,(item)=>{
                 state.list.push(item)
@@ -116,7 +104,10 @@ const store = new Vuex.Store({
         },
         SET_ALLARTICLE(state, data){
             state.allArticle = data
-        }
+        },
+        SET_PROGRESS_VALUE(state, progress){
+            state.progress = progress
+        },
     },
 
     getters: {
@@ -124,15 +115,16 @@ const store = new Vuex.Store({
         getBasis: state => state.basis,
         getLinks: state => _.groupBy(state.links,'type'),
         getArticle: state => state.article,
-        getList: state => state.articleList,
+        getList: state => state.list,
         getLoadingMore: state => state.loadingMore,
         getAllArticle: state => {
             _.each(state.allArticle,(item,key)=>{
                 item.groupByDate = formatDate(item.meta.createAt,'yyyy-MM')
             })
 
-            return _.groupBy(state.allArticleList,'groupByDate');
-        }
+            return _.groupBy(state.allArticle,'groupByDate');
+        },
+        getProgress:state => state.progress
     }
 })
 

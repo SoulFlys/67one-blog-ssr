@@ -27,6 +27,9 @@ import { host } from '../store/config'
 export default {
     name: 'header',
     props: ['basis','category'],
+    serverCacheKey: () => {
+        return `header`
+    },
     data() {
         return {
             rootUrl:host
