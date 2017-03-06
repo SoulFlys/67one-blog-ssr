@@ -36,14 +36,6 @@ const store = new Vuex.Store({
         list: [],           //首页分页文章列表
     },
     actions: {
-        // 根据唯一key获取多说评论  https://api.duoshuo.com/threads/listPosts.json?short_name=67one&thread_key=58a4174052a56004ce8e28d1
-        async FETCH_COMMENT({ commit, state }, thread_key ) {
-            const params = { short_name: '67one',thread_key:thread_key }
-            let res = await api.fetch1('https://api.duoshuo.com/threads/listPosts.json',params)
-            console.log(res)
-        },
-
-
         //获取分类信息
         async FETCH_CATEGORY({commit, state}) {
             let { data:data,status } = await api.fetch('/blog/category')
@@ -76,6 +68,9 @@ const store = new Vuex.Store({
         },
     },
     mutations: {
+        SET_loading(state,data){
+            state.article.isLoad = false;
+        },
         //分类信息
         SET_CATEGORY(state, data){
             state.category = data

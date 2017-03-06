@@ -19,7 +19,7 @@
                 <i class="iconfont">&#xe609;</i>
                 <span>{{article.readings}}</span>
                 <i class="iconfont">&#xe711;</i>
-                <!-- <span>{{article.meta.createAt | formatDate('yyyy-MM-dd')}}</span> -->
+                <span>{{article.meta.createAt | formatDate('yyyy-MM-dd')}}</span>
             </div>
         </div>
         <div class="author">
@@ -37,29 +37,25 @@
                 </p>
             </div>
         </div>
-        <!-- <div class="comment">
+        <div class="comment">
             <div class="comment-btn" @click="showComment" v-show="comment">
                 <i class="iconfont">&#xe624;</i>查看评论
             </div>
         </div>
-        <div id="comment-box" v-show="!comment"></div> -->
+        <div id="comment-box" v-show="!comment"></div>
     </div>
 </template>
 
 <script>
 import * as api from '../store/api'
 import * as Conf from '../store/config'
-import { mapGetters } from 'vuex'
-
-const fetchArticle = async store => {
-    Object.keys(store.state.basis).length || await store.dispatch('FETCH_BASIS')
-    store.state.category.length || await store.dispatch('FETCH_CATEGORY')
-    await store.dispatch('FETCH_ARTICLE')
-}
-
 
 export default {
     name: 'article',
+    props: ['basis','article'],
+    serverCacheKey: () => {
+        return `article`
+    },
     data() {
         return {
             rootUrl:Conf.host,
@@ -67,27 +63,8 @@ export default {
             eles:''
         }
     },
-    computed: {
-        ...mapGetters({
-            article: 'getArticle',
-            basis: 'getBasis'
-        })
-    },
-    preFetch: fetchArticle,
-    beforeMount() {
-        if(this.$store.state.article._id != this.$store.state.route.params.id){
-            fetchArticle(this.$store)
-        }
-    },
     mounted(){
         api.readings({id:this.article._id});
-    },
-    watch: {
-        '$route'() {
-            console.log('$route')
-            fetchArticle(this.$store)
-            this.comment = true;
-        }
     },
     methods:{
         showComment(){
