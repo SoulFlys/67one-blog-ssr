@@ -22,6 +22,7 @@ marked.setOptions({
 
 const store = new Vuex.Store({
     state: {
+        isLoad:false,
         progress: 0,
         category: [],
         basis: {},
@@ -53,9 +54,19 @@ const store = new Vuex.Store({
         },
         //获取某一篇文章
         async FETCH_ARTICLE({ commit, state }) {
+            commit('START_loading')
+            // console.log('params',state.route.params)
             let { data:data } = await api.fetch('/blog/article/findById',state.route.params);
             commit('SET_ARTICLE', data)
+            commit('END_loading')
         },
+        // FETCH_ARTICLE({ commit, state }) {
+        //     console.log('params',state.route.params)
+        //     // let { data:data } = await api.fetch('/blog/article/findById',state.route.params);
+        //     // commit('SET_ARTICLE', data)
+        //     return api.fetch('/blog/article/findById',state.route.params).then((result)=>commit('SET_ARTICLE', result.data))
+        // },
+
         //获取文章列表
         async FETCH_LIST({commit, state}) {
             let { data:data } = await api.fetch('/blog/article',{currentPage:state.currentPage,pageSize:state.pageSize})
@@ -68,8 +79,11 @@ const store = new Vuex.Store({
         },
     },
     mutations: {
-        SET_loading(state,data){
-            state.article.isLoad = false;
+        START_loading(state,data){
+            state.isLoad = true;
+        },
+        END_loading(state,data){
+            state.isLoad = false;
         },
         //分类信息
         SET_CATEGORY(state, data){
@@ -119,7 +133,8 @@ const store = new Vuex.Store({
 
             return _.groupBy(state.allArticle,'groupByDate');
         },
-        getProgress:state => state.progress
+        getProgress:state => state.progress,
+        getLoad:state => state.isLoad
     }
 })
 

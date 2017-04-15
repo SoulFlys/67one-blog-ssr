@@ -1,11 +1,11 @@
 <template>
 <div id="app">
     <!-- <w-progress :progress="progress"></w-progress> -->
-    <w-header :basis="basis" :category="category"></w-header>
+    <!-- <w-header :basis="basis" :category="category"></w-header> -->
     <transition name="fade" mode="out-in">
         <router-view class="view"></router-view>
     </transition>
-    <w-footer :basis="basis"></w-footer>
+    <!-- <w-footer :basis="basis"></w-footer> -->
     <aside>
         <div class="goTop" @click="goTop" :style="{display:isShowGoTop ? 'block' : 'none'}">
             <i class="iconfont">&#xe630;</i>

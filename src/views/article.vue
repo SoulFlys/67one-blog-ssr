@@ -1,5 +1,5 @@
 <template lang="html">
-    <div class="article con">
+    <div class="article con" v-show="!isLoad">
         <div class="title">
             <h1>{{article.title}}</h1>
             <hr>
@@ -19,7 +19,7 @@
                 <i class="iconfont">&#xe609;</i>
                 <span>{{article.readings}}</span>
                 <i class="iconfont">&#xe711;</i>
-                <!-- <span>{{article.meta.createAt | formatDate('yyyy-MM-dd')}}</span> -->
+                <!-- <span>{{article.meta.createAt}}</span> -->
             </div>
         </div>
         <div class="author">
@@ -51,12 +51,14 @@ import * as api from '../store/api'
 import * as Conf from '../store/config'
 import { mapGetters } from 'vuex'
 
-const fetchArticle = async store => {
-    Object.keys(store.state.basis).length || await store.dispatch('FETCH_BASIS')
-    store.state.category.length || await store.dispatch('FETCH_CATEGORY')
-    await store.dispatch('FETCH_ARTICLE')
-}
+// const fetchArticle = async store => {
+//     console.log(1)
+//     Object.keys(store.state.basis).length || await store.dispatch('FETCH_BASIS')
+//     store.state.category.length || await store.dispatch('FETCH_CATEGORY')
+//     await store.dispatch('FETCH_ARTICLE')
+// }
 
+const fetchArticle = store => store.dispatch('FETCH_ARTICLE')
 
 export default {
     name: 'article',
@@ -64,23 +66,24 @@ export default {
         return {
             rootUrl:Conf.host,
             comment: true,
-            eles:''
+            eles:'',
         }
     },
     computed: {
         ...mapGetters({
             article: 'getArticle',
-            basis: 'getBasis'
+            basis: 'getBasis',
+            isLoad: 'getLoad'
         })
     },
     preFetch: fetchArticle,
     beforeMount() {
-        if(this.$store.state.article._id != this.$store.state.route.params.id){
+        // if(this.$store.state.article._id != this.$store.state.route.params.id){
             fetchArticle(this.$store)
-        }
+        // }
     },
     mounted(){
-        api.readings({id:this.article._id});
+        // api.readings({id:this.article._id});
     },
     watch: {
         '$route'() {
@@ -90,17 +93,7 @@ export default {
         }
     },
     methods:{
-        showComment(){
-            this.comment = false;
-            var el = document.createElement('div');//该div不需要设置class="ds-thread"
-            el.setAttribute('data-thread-key', this.article._id);//必选参数
-            el.setAttribute('data-url', location.href);//必选参数
-            el.setAttribute('data-author-key', '作者的本地用户ID');//可选参数
-            DUOSHUO.EmbedThread(el);
-            let box = document.getElementById('comment-box');
-            box.innerHTML = '';
-            box.appendChild(el)
-        }
+
     }
 }
 </script>
@@ -169,7 +162,6 @@ export default {
             span
                 color: #B3B3B3
                 margin-right: 10px
-
 
     .author
         padding: 50px 12.78%

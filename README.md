@@ -1,19 +1,15 @@
 # 67one-blog-ssr
 
-## 准备工作:
-安装 NodeJS:
-https://nodejs.org/zh-cn/
+## 前置:
+部署: 67-api https://github.com/SoulFlys/67-api
 
-安装 Mongodb:
-https://www.mongodb.com/download-center#community
-
+### 安装
 ```shell
 # 安装依赖
 $ npm install
 
 # 或者
 $ yarn
-# 注意: 不要试用 cnpm 安装依赖
 
 # 开发模式
 $ npm run dev
@@ -25,5 +21,4 @@ $ npm run build
 $ npm run start
 ```
 
-首页
-http://localhost:8088
+首页 http://localhost:8888

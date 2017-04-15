@@ -91,6 +91,7 @@ app.get('*', (req, res) => {
 
     renderStream.on('end', () => {
         // embed initial store state
+        console.log('initialState',context.initialState.article)
         if (context.initialState) {
             res.write(`<script>window.__INITIAL_STATE__=${serialize(context.initialState, { isJSON: true })}</script>`)
         }
