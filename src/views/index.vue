@@ -52,7 +52,7 @@
                                 <p>
                                     <i class="iconfont hot" v-if="key < 3">&#xe675;</i>
                                     <i class="iconfont">&#xe711;</i>
-                                    {{item.meta.updateAt | formatDate('yyyy-MM-dd')}}
+                                    {{item.updateAt}}
                                 </p>
                             </div>
                             <div class="art-text">
@@ -110,6 +110,9 @@ export default {
     preFetch: fetchIndex,
     beforeMount() {
         fetchIndex(this.$store)
+    },
+    mounted(){
+        console.log(this.articleList[0])
     },
     methods: {
         clickloadingMore(event){
@@ -296,12 +299,13 @@ export default {
                             letter-spacing: 1px
                             i
                                 font-size: 13px
+                                margin-left: 4px
                                 &.hot
                                     color:$index-artHot
                     .art-text
                         p
                             min-height: 60px
-                            font-size: 14px
+                            font-size: 15px
                             color: $index-artText
                             letter-spacing: 1px
                             line-height: 30px
@@ -323,6 +327,9 @@ export default {
                                 font-size: 28px
                                 &:hover
                                     color:$index-artMoreHover
+                &:last-child
+                    hr
+                        display:none
                 hr
                     width: 30%
                     height: 1px
@@ -333,4 +340,6 @@ export default {
                     top: 105%
                     left: 0
                     right: 0
+
+
 </style>

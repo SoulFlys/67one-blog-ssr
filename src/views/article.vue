@@ -51,14 +51,14 @@ import * as api from '../store/api'
 import * as Conf from '../store/config'
 import { mapGetters } from 'vuex'
 
-// const fetchArticle = async store => {
-//     console.log(1)
-//     Object.keys(store.state.basis).length || await store.dispatch('FETCH_BASIS')
-//     store.state.category.length || await store.dispatch('FETCH_CATEGORY')
-//     await store.dispatch('FETCH_ARTICLE')
-// }
+const fetchArticle = async store => {
+    // console.log(1)
+    Object.keys(store.state.basis).length || await store.dispatch('FETCH_BASIS')
+    store.state.category.length || await store.dispatch('FETCH_CATEGORY')
+    await store.dispatch('FETCH_ARTICLE')
+}
 
-const fetchArticle = store => store.dispatch('FETCH_ARTICLE')
+// const fetchArticle = store => store.dispatch('FETCH_ARTICLE')
 
 export default {
     name: 'article',
